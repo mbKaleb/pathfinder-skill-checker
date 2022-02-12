@@ -1,47 +1,58 @@
-/*
 
 
-function fetchEXAMPLE(){
-    const response = await fetch(`https://api.pathfinder2.fr/v1/pf2/`{
+const BaseURL = "https://api.pathfinder2.fr/v1/pf2/";
 
-    })
+fetch(BaseURL, {
+  method: "GET",
+  withCredentials: true,
+  headers: {
+    "Authorization": "da468b89-2bf8-4e2b-a939-79c6e6ef25ce",
+    "Content-Type": "application/json"
+  }
+})
+  .then(resp => resp.json())
+  .then(function(data) {
+    console.log(data);
+  })
+  .catch(function(error) {
+    console.log(error);
+  });
 
-}
 
 
-async function postData(url = '', data = {}) {
-  // Default options are marked with *
+
+
+  /*
+  getData('https://api.pathfinder2.fr/v1/pf2');
+
+
+function getData(url) {
+  
   const response = await fetch(url, {
     method: 'GET',
+    withCredentials: true,
     headers: {
         'Authorization': 'da468b89-2bf8-4e2b-a939-79c6e6ef25ce',
+        'Content-Type' : 'application/json',
     },
      
-  });
-  return response.json(); // parses JSON response into native JavaScript objects
+  })
+  .then(resp => resp.json())
+  .then(function(data) {
+    console.log(data)
+  })
 }
 
 
 
 
-
-
-
-
-
-
-
-
-function showCharacter() {
+function fetchApi() {
     fetch(`https://api.pathfinder2.fr/v1/pf2/`, {
         method:'GET',
         headers: {
             'Authorization': 'da468b89-2bf8-4e2b-a939-79c6e6ef25ce',
-            
         }
     }).then()
-    
   }
 
-  
   */
