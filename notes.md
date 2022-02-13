@@ -1,6 +1,6 @@
 NO INNER HTML
 MVP Deliverables
-[] - See a clickable button to create a new sheet
+[x] - See a clickable button to create a new sheet
 [] - This sheet must be editable and contain all the relevant data
 [] - Roll a dice for each stat
 [] - check each roll against each 
@@ -13,9 +13,9 @@ MVP Deliverables
 
 Mods ( level, prof[t,e l], Temp[equipment], Item)
 
+Name
 Level
 Perception
-
 
 Acrobatics 
 Arcana
@@ -45,37 +45,9 @@ Will create a button with a paramater for an Id,
 This btn creates a new sheet and calls the edit form to fill data for the sheet.
 }
 
+IN form handler we need to take from inputs store them in an object and return the object, then update the card with the new object
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
 const BaseURL = "https://api.pathfinder2.fr/v1/pf2/";
 
 fetch(BaseURL, {
@@ -92,12 +64,6 @@ fetch(BaseURL, {
   .catch(function(error) {
     console.log(error);
   });
-
-
-
-
-
-  
   getData('https://api.pathfinder2.fr/v1/pf2');
 
 
@@ -130,16 +96,13 @@ function fetchApi() {
     }).then()
   }
 
-  */
 
 
-  mock object
-
-let characterName = {
+let mockObject = {
     name: 'yourmother'
     level: playerlevel
     perception: perceptionvalue
-    
+
     skills: {
       "data": "attribute"
       "data": "attribute"
@@ -158,3 +121,12 @@ let characterName = {
       "data": "attribute"
       "data": "attribute"
   }
+
+
+        console.log('e.target.children: ', e.target.children[3].children[0]); //syntax for skills like ref
+      console.log('object: ', object);
+
+
+      skill value is calculated by if trained=(lvl+trainglvl) = prof
+      relevant modifier is the mod from the abilities values
+      prof+modifier+item+temp
