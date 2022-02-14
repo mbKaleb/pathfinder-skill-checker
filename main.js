@@ -5,9 +5,11 @@ sheetContainer = document.querySelector("#sheet-container")
 
 //global var i hate these must change to function reference
 const skills = ['acrobatics' ,'arcana', 'athletics', 'crafting', 'deception', 'diplomacy', 'intimidation', 'medicine', 'Nature', 'Occultism', 'performance', 'religion', 'society', 'stealth', 'survival', 'thievery', 'farming'];
+const abilityMods = ['STR','DEX','CON','INT','WIS','CHA']
 
-//renders
- 
+
+
+//renderers
 
   function makeEmptySheet(){//make empy character sheet in the sheet container
     let charsheet = document.createElement('div')
@@ -52,9 +54,6 @@ const skills = ['acrobatics' ,'arcana', 'athletics', 'crafting', 'deception', 'd
   charsheet.append(name, level, perception, skillList, editBttn, deleteBttn)
   sheetContainer.appendChild(charsheet)
 }
-
-
-
 
 
 function renderObjectForm(){
@@ -117,7 +116,7 @@ function renderObjectForm(){
   charsheet.append(name, level, perception, skillList, submit)
   sheetContainer.appendChild(charsheet)
 }
-renderObjectForm()
+// renderObjectForm()
 
 
 
@@ -172,7 +171,7 @@ function generateTable(){
     const cell7 = document.createElement('td');const tempCell = document.createTextNode('Temp');cell7.append(tempCell)
 
 
-    
+
     row.append(cell1 ,cell2 ,cell3 ,cell4 ,cell5 ,cell6 ,cell7)
     console.log(row)
     tblBody.appendChild(row)
@@ -180,66 +179,116 @@ function generateTable(){
   tbl.appendChild(tblBody)
   toolBox.appendChild(tbl)
   tbl.setAttribute("border", "2");
-
 }
 
-generateTable();
+// generateTable();
 
 
 //buttons
 
-  function createBtn(){
+function createBtn(){
   
-    const bttn = document.createElement("button");
-    bttn.className = 'bttn like-bttn';
-    bttn.textContent = 'NEW CHARACTER'
-    bttn.addEventListener('click', makeEmptySheet)
-      toolBox.appendChild(bttn)
-  }
-
-
-function trainingDropdown(){
-
-    const dropdown = document.createElement("select");
-
-    const untrained = document.createElement("option")
-    untrained.textContent = "Untrained"
-    const trained = document.createElement("option")
-    trained.textContent = "Trained"
-    const expert = document.createElement("option")
-    expert.textContent = "Expert"
-    const master = document.createElement("option")
-    master.textContent = "Master"
-    const legendary = document.createElement("option")
-    legendary.textContent = "Legendary"
-
-    dropdown.append(untrained, trained, expert, master, legendary)
-  return dropdown;
+  const bttn = document.createElement("button");
+  bttn.className = 'bttn like-bttn';
+  bttn.textContent = 'NEW CHARACTER'
+  bttn.addEventListener('click', makeEmptySheet)
+  toolBox.appendChild(bttn)
 }
 
-trainingDropdown();
-
 //handlers 
-
-  function updateSheet(){
-    let object = {
-
-
-
-    }
-  }
-
 
 
 //Initilizers
 createBtn();
 
-// render(object, sheet){
-//   object
-// }
 
-// #sheet-container > div > h3:nth-child(1)
-// document.querySelector("#sheet-container > div > h3:nth-child(1)")
-// #sheet-container > div > h3.name
-// #sheet-container > div > h3.level
-// document.querySelector("#sheet-container > div > h3.level")
+
+//Good Code Below Only
+
+
+
+
+function eventHandler() {}//placeholder event handler for monster buttons
+
+(function createMonsterButtons(){
+  let monsterButtons = document.createElement('div');
+  monsterButtons.className = "monster-bttns";
+  (function weakBttn(){
+    const bttn = document.createElement("button");
+    bttn.className = 'bttn weak monster-bttn';
+    bttn.textContent = 'Weak'
+    bttn.addEventListener('click', eventHandler())
+    monsterButtons.append(bttn);
+  })();
+  (function standardBttn(){
+    const bttn = document.createElement("button");
+    bttn.className = 'bttn standard monster-bttn';
+    bttn.textContent = 'Standard'
+    bttn.addEventListener('click', eventHandler())
+    monsterButtons.append(bttn);
+  })();
+  (function eliteBttn(){
+    const bttn = document.createElement("button");
+    bttn.className = 'bttn elite monster-bttn';
+    bttn.textContent = 'Elite'
+    bttn.addEventListener('click', eventHandler())
+    monsterButtons.append(bttn);
+  })()
+  toolBox.append(monsterButtons);
+})();
+
+
+function trainingDropdown(){
+
+  const dropdown = document.createElement("select");dropdown.className = 'horg'
+
+  const untrained = document.createElement("option")
+    untrained.textContent = "U"
+    const trained = document.createElement("option")
+    trained.textContent = "T"
+    const expert = document.createElement("option")
+    expert.textContent = "E"
+    const master = document.createElement("option")
+    master.textContent = "M"
+    const legendary = document.createElement("option")
+    legendary.textContent = "L"
+
+    dropdown.append(untrained, trained, expert, master, legendary)
+  return dropdown;
+}
+
+
+function editChar(){
+  const editSheet = document.createElement('div')
+  const nameInput = document.createElement('input')
+  const levelInput = document.createElement('input')
+  const skillList = document.createElement('ul')
+  const abilitySection = document.createElement('section');abilitySection.className = 'box'
+
+
+  abilityMods.forEach((ability) => {
+    const abilityParent = document.createElement('div')
+    abilityInput = document.createElement("input");abilityInput.className = ability;abilityParent.appendChild(abilityInput)
+    abilityLabel = document.createElement('h3');abilityLabel.textContent = ability;abilityParent.appendChild(abilityLabel)
+    abilitySection.append(abilityParent)
+  })
+  console.log (abilitySection)
+
+  skills.forEach((skill) => {
+    const skillsParent = document.createElement('li')
+    const skillLabel = document.createElement('div');skillLabel.textContent = skill;
+    const skillTotalDiv = document.createElement('div');skillTotalDiv.
+    skillLabel.className = "horg"
+    skillsParent.append(skillLabel, trainingDropdown(), )
+    skillList.append(skillsParent)
+  })
+
+
+
+
+
+  editSheet.append(nameInput, levelInput, skillList, )
+  toolBox.append(editSheet)
+}
+editChar()
+

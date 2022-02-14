@@ -130,3 +130,19 @@ let mockObject = {
       skill value is calculated by if trained=(lvl+trainglvl) = prof
       relevant modifier is the mod from the abilities values
       prof+modifier+item+temp
+
+      input only mod
+      
+
+
+      skill training total temp roll value
+
+      Recall knowledge -> rolls all players skills and chekcs it against the creatres DC
+
+      Roll- roll all
+
+    perception is a special skill and functions just like a skill, most rolled thing in game
+
+    value is calculated from wisdom mod 
+    ol li
+    

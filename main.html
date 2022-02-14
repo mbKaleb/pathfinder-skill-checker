@@ -1,43 +1,30 @@
 <html lang="en">
   <head>
-    <!-- <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
     <script defer src="main.js"></script>
-    <link rel="stylesheet" href="app.css" />
+    <link defer rel="stylesheet" href="app.css" />
+    
     <title></title>
   </head>
 
   <body>
     <div id="tool-box">
+      
       <p>Tools</p>
-    </div>
+
+      <form autocomplete="off" action="/action_page.php">
+        <div class="autocomplete" style="width:300px;">
+          <input id="myInput" type="text" name="myCountry" placeholder="Country">
+        </div>
+        <input type="submit">
+      </form>
+      <script defer src="search.js"></script>    </div>
 
     <div id="sheet-container"></div>
     
     <div id="edit-container"></div>
     
   </body>
+
   </html>
   
   
-  <!-- 
-    <form id="poke-form">
-      <label class="form-label"><strong>Name: </strong></label>
-      <input type="text" id="name-input" />
-      
-      <label class="form-label"><strong>Image: </strong></label>
-      <input type="text" id="img-input" />
-      
-      <input type="submit" value="Submit" />
-   
-    
-          <form id="form">
-            <label class="form-label"><strong>Name: </strong></label>
-            <input type="text" id="name-input" />
-    
-            <label class="form-label"><strong>Image: </strong></label>
-            <input type="text" id="img-input" />
-            <input type="submit" value="Submit" />
-          </form>
-         </form> -->
