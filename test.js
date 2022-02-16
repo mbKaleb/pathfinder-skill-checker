@@ -1,6 +1,6 @@
 
 const characterObj = {
-    id: 1,
+    id: 0,
     name: 'Enter name...',
     level: 1,
     attributes:{
@@ -16,9 +16,9 @@ const characterObj = {
             id: 0,
             name: "perception",
             mod: function() {
-                return ([this.attributemod + this.proficiency + this.temporary])
+                return ([this.attributeMod + this.proficiency + this.temporary])
             },
-            attributeMod: function() {if(this.proficiency>0){return [this.proficiency + objectTarget.attributes.intelligence]}},
+            attributeMod: 0,
             proficiency: 0,
             temporary: 0,
             attribture: "wisdom",
@@ -27,9 +27,9 @@ const characterObj = {
             id: 1,
             name: "acrobatics",
             mod: function() {
-                return (this.attributemod + this.proficiency + this.temporary)
+                return ([this.attributeMod + this.proficiency + this.temporary])
             },
-            attributeMod: function() {if(this.proficiency>0){return [this.proficiency + objectTarget.attributes.intelligence]}},
+            attributeMod: 0,
             proficiency: 0,
             temporary: 0,
             attribute: "dexterity",
@@ -38,7 +38,7 @@ const characterObj = {
             id: 2,
             name: "arcana",
             mod: function() {
-                return (this.attributemod + this.proficiency + this.temporary)
+                return ([this.attributeMod + this.proficiency + this.temporary])
             },
             attributeMod: 0,
             proficiency: 0,
@@ -49,7 +49,7 @@ const characterObj = {
             id: 3,
             name: "athletics",
             mod: function() {
-                return (this.attributemod + this.proficiency + this.temporary)
+                return ([this.attributeMod + this.proficiency + this.temporary])
             },
             attributeMod: 0,
             proficiency: 0,
@@ -60,7 +60,7 @@ const characterObj = {
             id: 4,
             name: "crafting",
             mod: function() {
-                return (this.attributemod + this.proficiency + this.temporary)
+                return ([this.attributeMod + this.proficiency + this.temporary])
             },
             attributeMod: 0,
             proficiency: 0,
@@ -71,7 +71,7 @@ const characterObj = {
             id: 5,
             name: "deception",
             mod: function() {
-                return (this.attributemod + this.proficiency + this.temporary)
+                return ([this.attributeMod + this.proficiency + this.temporary])
             },
             attributeMod: 0,
             proficiency: 0,
@@ -82,7 +82,7 @@ const characterObj = {
             id: 6,
             name: "diplomacy",
             mod: function() {
-                return (this.attributemod + this.proficiency + this.temporary)
+                return ([this.attributeMod + this.proficiency + this.temporary])
             },
             attributeMod: 0,
             proficiency: 0,
@@ -93,7 +93,7 @@ const characterObj = {
             id: 7,
             name: "intimidation",
             mod: function() {
-                return (this.attributemod + this.proficiency + this.temporary)
+                return ([this.attributeMod + this.proficiency + this.temporary])
             },
             attributeMod: 0,
             proficiency: 0,
@@ -104,7 +104,7 @@ const characterObj = {
             id: 8,
             name: "medicine",
             mod: function() {
-                return (this.attributemod + this.proficiency + this.temporary)
+                return ([this.attributeMod + this.proficiency + this.temporary])
             },
             attributeMod: 0,
             proficiency: 0,
@@ -115,7 +115,7 @@ const characterObj = {
             id: 9,
             name: "nature",
             mod: function() {
-                return (this.attributemod + this.proficiency + this.temporary)
+                return ([this.attributeMod + this.proficiency + this.temporary])
             },
             attributeMod: 0,
             proficiency: 0,
@@ -126,7 +126,7 @@ const characterObj = {
             id: 10,
             name: "occultism",
             mod: function() {
-                return (this.attributemod + this.proficiency + this.temporary)
+                return ([this.attributeMod + this.proficiency + this.temporary])
             },
             attributeMod: 0,
             proficiency: 0,
@@ -137,7 +137,7 @@ const characterObj = {
             id: 11,
             name: "performance",
             mod: function() {
-                return (this.attributemod + this.proficiency + this.temporary)
+                return ([this.attributeMod + this.proficiency + this.temporary])
             },
             attributeMod: 0,
             proficiency: 0,
@@ -148,7 +148,7 @@ const characterObj = {
             id: 12,
             name: "religion",
             mod: function() {
-                return (this.attributemod + this.proficiency + this.temporary)
+                return ([this.attributeMod + this.proficiency + this.temporary])
             },
             attributeMod: 0,
             proficiency: 0,
@@ -159,7 +159,7 @@ const characterObj = {
             id: 13,
             name: "society",
             mod: function() {
-                return (this.attributemod + this.proficiency + this.temporary)
+                return ([this.attributeMod + this.proficiency + this.temporary])
             },
             attributeMod: 0,
             proficiency: 0,
@@ -170,7 +170,7 @@ const characterObj = {
             id: 14,
             name: "stealth",
             mod: function() {
-                return (this.attributemod + this.proficiency + this.temporary)
+                return ([this.attributeMod + this.proficiency + this.temporary])
             },
             attributeMod: 0,
             proficiency: 0,
@@ -181,7 +181,7 @@ const characterObj = {
             id: 15,
             name: "survival",
             mod: function() {
-                return (this.attributemod + this.proficiency + this.temporary)
+                return ([this.attributeMod + this.proficiency + this.temporary])
             },
             attributeMod: 0,
             proficiency: 0,
@@ -192,7 +192,7 @@ const characterObj = {
             id: 16,
             name: "thievery",
             mod: function() {
-                return (this.attributemod + this.proficiency + this.temporary)
+                return ([this.attributeMod + this.proficiency + this.temporary])
             },
             attributeMod: 0,
             proficiency: 0,
