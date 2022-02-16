@@ -115,18 +115,6 @@ function editChar(){
   });
   
 
-  abilityModForm.addEventListener('change', function (e) { 
-    e.preventDefault()
-
-    let strength = abilityModForm.childNodes[0].value
-    let dexterity = abilityModForm.childNodes[1].value
-    let constitution = abilityModForm.childNodes[2].value
-    let intelligence = abilityModForm.childNodes[3].value
-    let wisdom = abilityModForm.childNodes[4].value
-    let charisma = abilityModForm.childNodes[5].value
-  })
-
-
   skills.forEach((skill) => {
     const skillsParent = document.createElement('li')
     const skillLabel = document.createElement('div');skillLabel.textContent = skill;skillLabel.className = "horg"
