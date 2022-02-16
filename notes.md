@@ -103,6 +103,7 @@ let mockObject = {
     level: playerlevel
     perception: perceptionvalue
 
+
     skills: {
       "data": "attribute"
       "data": "attribute"
@@ -145,4 +146,3 @@ let mockObject = {
 
     value is calculated from wisdom mod 
     ol li
-    

@@ -1,30 +1,52 @@
 <html lang="en">
   <head>
-    <script defer src="main.js"></script>
+    <script defer src="search.js"></script>
     <link defer rel="stylesheet" href="app.css" />
+    <!-- <link rel="stylesheet" href="./style.css"/> -->
+    <title>Pathmaster: Secret Skill Roller</title>
     
-    <title></title>
   </head>
-
   <body>
-    <div id="tool-box">
-      
-      <p>Tools</p>
-
-      <form autocomplete="off" action="/action_page.php">
-        <div class="autocomplete" style="width:300px;">
-          <input id="myInput" type="text" name="myCountry" placeholder="Country">
+    <div id="headerDiv" class="background">
+      <div id="buttonCard" class="card">
+        <button id="newCharacterButton" class="regularButton" name="newCharacterButton">Add New Character</button>
+        <div>
+          <button id="loadPartyButton" class="regularButton" name="loadPartyButton">Load Party</button>
+          <button id="savePartyButton" class="saveButton" name="savePartyButton">Save Party</button>
         </div>
-        <input type="submit">
-      </form>
-      <script defer src="search.js"></script>    </div>
-
-    <div id="sheet-container"></div>
-    
-    <div id="edit-container"></div>
-    
+      </div>
+      
+      <div id="creatureCard" class ="card" name="creatureCard">
+        <div>
+          <form autocomplete="off" id="monsterForm">
+            <div class="autocomplete" style="width:300px;">
+              <input id="myInput" type="text" name="monsterSearch" placeholder="Select a creature...">
+              <input type="submit" class="search-button">
+            </div>
+          </form>
+        </div>
+        <div id="monsterData">
+          <h2 id="monsterName">First Creature Name</h2>
+          <h2 id="MonsterDC">Skill DC: 0</h2>
+        </div>
+        <div>
+          <Button id="recallKnowledgeButton" class= regularButton name="recallKnowledgeButton">Recall Knowledge</Button>
+        </div>
+      </div>
+      
+      <div id="manualCard" class="card" name="manualCard">
+        <h2>Manual DC: 0</h2>
+        <form name="manualInputForm">
+          <input type="text" id="manualInput" name="manualInput">
+        </form>
+        <button id="rollAllButton" class="regularButton" name="rollAllButton">Roll All</button>
+        <button id="rollPerceptionButton" class="regularButton" name="rollPerceptionButton">Roll Perception</button>
+      </div>
+    </div>
+    <div id="characterCardDiv" class="background">
+    </div>
+    <script src="test.js"></script>
+    <script defer src="main.js"></script>
   </body>
-
-  </html>
   
-  
+<!-- autocomplete(document.getElementById("myInput"), monsters); -->

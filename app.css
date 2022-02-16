@@ -7,10 +7,48 @@
     margin: 30px;
     float: left;
     text-align: center;
-    width: 150px;
-    height: 350px;
+    width: auto;
+    height: auto;
   }
-  
+
+
+  .edit-sheet {
+    border: solid;
+    border-color: #ffcb05;
+    padding: 0px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    margin: 30px;
+    float: left;
+    text-align: center;
+    width: 24.5%;
+    height: 40%;
+  }
+  .edit-bttn {
+    width: 90px;
+    height: 50px;
+  }
+
+.skilldiv {
+  float: left;
+    width: 15%;
+    text-align: left;
+    border: solid;
+    list-style-type: none;
+}
+
+.skill-list {
+  list-style-type: none;
+
+}
+.temporary-mod-label {
+  width: 50px;
+  padding:0px;
+}
+
+
+
+
 .bttn {
   color: red;
   font-size: larger;
@@ -41,9 +79,33 @@
     position: relative;
   }
 
+
+  
+  .ability {
+    float: left;
+    width: 15%;
+    outline: 2px solid;
+    padding: 0px;
+
+    
+  }
+
+  
+  .ability-class {
+    float: left;
+    width: 16%;
+    outline: 2px solid;
+    padding: 0px;
+
+    
+  }
+
+
   .horg {
     float: left;
-    width: 8%;
+    width: 30%;
+    outline: 2px solid;
+    padding: 0px;
 
     
   }
@@ -53,20 +115,24 @@
   position: relative;
   display: inline-block;
 }
+
 input {
   border: 1px solid transparent;
   background-color: #f1f1f1;
   padding: 10px;
   font-size: 16px;
 }
+
 input[type=text] {
   background-color: #f1f1f1;
   width: 100%;
 }
+
 input[type=submit] {
   background-color: DodgerBlue;
   color: #fff;
 }
+
 .autocomplete-items {
   position: absolute;
   border: 1px solid #d4d4d4;
@@ -78,16 +144,19 @@ input[type=submit] {
   left: 0;
   right: 0;
 }
+
 .autocomplete-items div {
   padding: 10px;
   cursor: pointer;
   background-color: #fff;
   border-bottom: 1px solid #d4d4d4;
 }
+
 .autocomplete-items div:hover {
   /*when hovering an item:*/
   background-color: #e9e9e9;
 }
+
 .autocomplete-active {
   /*when navigating through the items using the arrow keys:*/
   background-color: DodgerBlue !important;
