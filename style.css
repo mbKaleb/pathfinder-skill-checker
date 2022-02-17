@@ -12,6 +12,13 @@ body {
     color: #FFF;
     text-align: center;
 }
-
+.regularButton {
+    background-color: #6b665e;
+    font-size: 28px;
+    padding: 8px;
+    border: 2px solid #987849;
+    color: #FFF;
+    text-align: center;
+}
 
 
