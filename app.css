@@ -115,18 +115,15 @@
   /*the container must be positioned relative:*/
   position: relative;
   display: inline-block;
+  margin: 8px;
 }
+
 
 input {
   border: 1px solid transparent;
   background-color: #f1f1f1;
   padding: 10px;
   font-size: 16px;
-}
-
-input[type=text] {
-  background-color: #f1f1f1;
-  width: 100%;
 }
 
 input[type=submit] {
@@ -162,4 +159,162 @@ input[type=submit] {
   /*when navigating through the items using the arrow keys:*/
   background-color: DodgerBlue !important;
   color: #ffffff;
+}
+
+/* Ryan's Code */
+body {
+  background-color: #110C0A;
+  margin: 0px;
+}
+
+#headerDiv {
+  width: 100%;
+  height: 84px;
+  background-color:#110C0A;
+  margin: 8px;
+}
+
+.regularButton {
+  background-color: #6b665e;
+  font-size: 16px;
+  padding: 8px;
+  border: 2px solid #987849;
+  color: #FFF;
+  text-align: center;
+  
+}
+
+#buttonCard {
+  width: calc(25% - 6px);
+  background-color: #110C0A;
+  float:left;
+  margin-right: 4px;
+  height: 84px;
+}
+
+#newCharacterButton {
+  margin-bottom: 8px;
+  width: 100%;
+}
+
+#loadPartyButton {
+  margin-right: 8px;
+  width: calc(50% - 4px)
+}
+
+#savePartyButton {
+  background-color: #B2FF59;
+  font-size: 16px;
+  padding: 8px;
+  color: #000;
+  text-align: center;
+  border-color: #B2FF59;
+  width: calc(50% - 4px);
+  float: right;
+}
+#creatureCard {
+  float: left;
+  margin-left: 4px;
+  margin-right: 4px;
+  background-color: #1B1717;
+  width: calc(50% - 12px);
+  height: 84px;
+}
+
+#monsterSearchCard {
+  float: left;
+  width: 40%;
+  height: 100%;
+}
+#monsterForm {
+  padding-top: 12px;
+}
+#myInput {
+  float: left;
+  width: 75%;
+  font-size: 16px;
+  height: 42px;
+}
+.search-button {
+  float: right;
+  width: 25%;
+  font-size: 16px;
+  height: 42px;
+}
+
+h2 {
+  font-size: 18px;
+  color: #FFF;
+  margin: 8px;
+}
+
+#monsterData {
+  float: left;
+  width: calc(40% - 16px);
+  margin-right: 8px;
+  height: 100%;
+  text-align: center;
+}
+
+#recallKnowledge {
+  float: right;
+  width: 20%;
+  height: 100%;
+}
+#recallKnowledgeButton {
+  margin: 8px;
+  width: calc(100% - 16px);
+  height: calc(100% - 16px);
+}
+
+#manualCard {
+  float: left;
+  margin-left: 4px;
+  margin-right: 8px;
+  background-color: #1B1717;
+  width: calc(25% - 16px);
+  height: 84px;
+}
+#manualDC {
+  float: left;
+  width: calc(40% - 16px);
+  margin: 8px;
+  text-align: center;
+  height: 68px;
+}
+#manualInput {
+  font-size: 16px;
+  height: 28px;
+  width: 40px;
+  text-align:center;
+}
+#manualButtons {
+  width: calc(60% - 8px);
+  float: left;
+  padding: 0px;
+}
+#rollAllButton {
+  width: calc(50% - 8px);
+  margin-right: 8px;
+  margin-top: 8px;
+  height: calc(100% - 16px);
+  float: left;
+}
+#rollPerceptionButton {
+  width: calc(50% - 8px);
+  height: calc(100% - 16px);
+  float: left;
+  margin-top: 8px;
+}
+.critical-success {
+  color: #64DD17;
+}
+.success {
+  color: #AED581;
+}
+.failure {
+  color: #E57373;
+}
+.critical-failure {
+  color: #D50000;
 }

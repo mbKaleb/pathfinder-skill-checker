@@ -17,11 +17,11 @@
       </div>
       
       <div id="creatureCard" class ="card" name="creatureCard">
-        <div>
+        <div id="monsterSearchCard">
           <form autocomplete="off" id="monsterForm">
-            <div class="autocomplete" style="width:300px;">
+            <div class="autocomplete">
               <input id="myInput" type="text" name="monsterSearch" placeholder="Select a creature...">
-              <input type="submit" class="search-button">
+              <input type="submit" class="search-button" value="&#128269;">
             </div>
           </form>
         </div>
@@ -29,18 +29,22 @@
           <h2 id="monsterName">First Creature Name</h2>
           <h2 id="MonsterDC">Skill DC: 0</h2>
         </div>
-        <div>
+        <div id="recallKnowledge">
           <Button id="recallKnowledgeButton" class= regularButton name="recallKnowledgeButton">Recall Knowledge</Button>
         </div>
       </div>
       
       <div id="manualCard" class="card" name="manualCard">
-        <h2>Manual DC: 0</h2>
-        <form name="manualInputForm">
-          <input type="text" id="manualInput" name="manualInput">
-        </form>
-        <button id="rollAllButton" class="regularButton" name="rollAllButton">Roll All</button>
-        <button id="rollPerceptionButton" class="regularButton" name="rollPerceptionButton">Roll Perception</button>
+        <div id = "manualDC">
+          <h2>Manual DC:</h2>
+          <form name="manualInputForm" id='manualInputForm'>
+            <input type="text" id="manualInput" name="manualInput">
+          </form>
+        </div>
+        <div id="manualButtons">
+          <button id="rollAllButton" class="regularButton" name="rollAllButton">Roll All</button>
+          <button id="rollPerceptionButton" class="regularButton" name="rollPerceptionButton">Roll Perception</button>
+        </div>
       </div>
     </div>
     <div id="characterCardDiv" class="background">
