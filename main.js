@@ -24,34 +24,6 @@ let manualDC = 0
 //renders
 
 
-
-
-//table prototype
-
-// function generateTable(){
-//   const tbl = document.createElement("table");
-//   const tblBody = document.createElement("tbody");
-  
-//   for (var i = 0; i < 1; i++){
-//     const row = document.createElement('tr')
-//     const cell1 = document.createElement('td');const dropdown = trainingDropdown();cell1.append(dropdown)
-//     const cell2 = document.createElement('td');const skillCell = document.createTextNode('skill');cell2.append(skillCell)
-//     const cell3 = document.createElement('td');const totalCell = document.createTextNode('Total');cell3.append(totalCell)
-//     const cell4 = document.createElement('td');const abilityCell = document.createTextNode('Ability');cell4.append(abilityCell)
-//     const cell5 = document.createElement('td');const profCell = document.createTextNode('Prof.');cell5.append(profCell)
-//     const cell6 = document.createElement('td');const itemCell = document.createTextNode('Item');cell6.append(itemCell)
-//     const cell7 = document.createElement('td');const tempCell = document.createTextNode('Temp');cell7.append(tempCell)
-//     row.append(cell1 ,cell2 ,cell3 ,cell4 ,cell5 ,cell6 ,cell7)
-//     console.log(row)
-//     tblBody.appendChild(row)
-//   }
-//   tbl.appendChild(tblBody)
-//   toolBox.appendChild(tbl)
-//   tbl.setAttribute("border", "2");
-// }
-
-//Good Code Below Only
-
 //renderer
 function renderEmptySheet(){
   const characterDataObject = { ...characterObj};
@@ -76,8 +48,8 @@ function renderEmptySheet(){
     const liParent = document.createElement('li');liParent.className = `${skill} skill-list`;
       const skillLabel = document.createElement('div');skillLabel.className = `${skill} skill-label skilldiv`;skillLabel.textContent = `${skill}`
       const trainingLabel = document.createElement('div');trainingLabel.className = `${skill} training-label skilldiv`;trainingLabel.textContent = 'U'
-      const skillTotalLabel = document.createElement('div');skillTotalLabel.className = `${skill} skill-total-label skilldiv`;skillTotalLabel.textContent = '35'
-      const temporaryModLabel = document.createElement('input', type ="number");temporaryModLabel.className = `${skill} temporary-mod-label skilldiv`;temporaryModLabel.defaultValue = "temp"
+      const skillTotalLabel = document.createElement('div');skillTotalLabel.className = `${skill} skill-total-label skilldiv`;skillTotalLabel.textContent = '-'
+      const temporaryModLabel = document.createElement('input', type ="number");temporaryModLabel.className = `${skill} temporary-mod-label skilldiv`;temporaryModLabel.defaultValue = "temp";
       const skillRoll = document.createElement('div');skillRoll.className = `${skill} skill-roll skilldiv`;skillRoll.textContent = '-'
       liParent.append(skillLabel,trainingLabel,skillTotalLabel,temporaryModLabel,skillRoll);
       skillsList.append(liParent);
@@ -270,12 +242,75 @@ monsterForm.addEventListener('submit', function(e){
   monsterForm.reset();
 })
 
-
 function searchHandler(monsterResult){
   activeMonster = {...monstersData[monsterResult]}
   monsterName.textContent = monsterResult;
   monsterDC.textContent = `Skill DC: ${monstersData[monsterResult].monsterDC}`;
 }
+
+function renderSheet(object){
+  let characterObject = {...object}//Object should modify the original?
+    //Parent sheet
+  const characterSheet = document.createElement("div");characterSheet.className = "character-sheet";
+    characterSheet.setAttribute("id", `id${characterObject.id}`);
+
+    const headers = document.createElement('header');
+      const nameBox = document.createElement('div');nameBox.className = "div name-box"; nameBox.textContent = `${characterObject.name}`
+      const editBttn = document.createElement('button');editBttn.className = 'bttn edit-bttn';
+      const levelBox = document.createElement('div');levelBox.className = "div level-box"; levelBox.textContent = `${characterObject.level}`
+      const rollBttn = document.createElement('button');rollBttn.className = 'bttn roll-bttn';
+
+      const skillList = document.createElement('ul');skillsList.className = 'skill-list';
+
+    //edit button functions
+    editBttn.addEventListener('click', function(e){callEditForm(this.parentElement)
+      this.removeEventListener('click', arguments.callee,false);
+    })
+    //roll button function
+    rollBttn.addEventListener('click', function(e){
+      console.log('ROLLED LOL')
+    });
+
+  //Skills List Maker
+  skills.forEach((skill) => {
+    listParent = document.createElement('li');liParent.className = `${skill} list-parent`;
+    const skillLabel = document.createElement('div');skillLabel.className = `${skill} skill-label`;skillLabel.textContent = `${skill}`
+    const trainingLabel = document.createElement('div');trainingLabel.className = `${skill} training-label`;trainingLabel.textContent = trainingHandler(characterObject, skill);
+    const skillTotal = document.createElement('div');skillTotal.className = `${skill} skill-total-label skilldiv`;skillTotal.textContent = skillModHandler(characterObject, skill);
+    const tempInput = document.createElement('input', type ="number");tempInput.className = `${skill} temporary-mod-label skilldiv`;temporaryModLabel.defaultValue = "0";
+      tempInput.addEventListener('change',tempInputHandler(characterObject, skill, tempInput));
+
+    const skillRoll = document.createElement('div');skillRoll.className = `${skill} skill-roll skilldiv`;skillRoll.textContent = '-'
+    listParent.append(skillLabel, trainingLabel, skillTotal, tempInput, skillRoll);skillList.append(listParent);
+  })
+  object = characterObject;
+  headers.append(nameBox, editBttn, levelBox, rollBttn)
+  characterSheet.append(headers, skillList)
+}
+
+//RENDER SHEET HANDLERS////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function skillModHandler(characterObject, skill){
+  if (characterObject.skills[skill.toLowerCase()].proficiency) {
+    return `${characterObject.skills[skill.toLowerCase()].mod()[0] + characterObj.level}`
+}
+else {
+    return `${characterObject.skills[skill.toLowerCase()].mod()[0]}`
+}}
+
+function trainingHandler(objectTarget, skillTarget){ //needs work
+  const targetHelper = objectTarget['skills'][skillTarget.toLowerCase()]['proficiency']
+  if (targetHelper == 0){return 'U'}
+  else if(targetHelper == 0){return 'U'}
+  else if(targetHelper == 2){return 'T'}
+  else if(targetHelper == 4){return 'E'}
+  else if(targetHelper == 6){return 'M'}
+  else if(targetHelper == 8){return 'L'}
+}
+
+function tempInputHandler(objectTarget, skillTarget, inputTarget){
+  objectTarget['skills'][skillTarget.toLowerCase()]['temporary'] = inputTarget.value;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 function callEditForm(sheet){
@@ -298,8 +333,9 @@ function callEditForm(sheet){
     
   //Apply button
   applyBttn.addEventListener('click',function(e){
-    
-
+    console.log(this.parentElement)//delete this
+    console.log(sheet) //render new sheet here
+    // renderSheet(localChar)
   console.log(localChar)})
 
   /////
