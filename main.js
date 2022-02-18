@@ -20,8 +20,8 @@ const attribturesArr = ['strength', 'dexterity',  'constitution', 'intelligence'
 const partyArray = [];
 let sheetIdCounter =0;
 
-let activeMonster = {}
-let manualDC = 0
+let manualInput = document.querySelector('#manualInput')
+let manualDC = parseInt(manualInput.value)
 
 
 
@@ -131,8 +131,10 @@ function renderSheet(characterObject){
   //----->
 
   //Skills List Maker//----->
+  let counter = 0;
   skills.forEach((skill) => {
-  const listParent = document.createElement('li');listParent.className = `${skill} skill-list list-parent`;
+    const listParent = document.createElement('li');listParent.className = `${skill} skill-list list-parent`;
+      if (counter % 2 == 1){listParent.classList.add('odd')} else {listParent.classList.add('even')}; // alterate colors for style
     const skillLabel = document.createElement('label');skillLabel.className = `${skill} skill-list list-child skill-label`;skillLabel.textContent = `${skill}`
     const trainingLabel = document.createElement('label');trainingLabel.className = `${skill} skill-list list-child training-label`;trainingLabel.textContent = trainingHandler(characterObject, skill);
     const skillTotal = document.createElement('label');skillTotal.className = `${skill} skill-list list-child total-label`;skillTotal.textContent = skillModHandler(characterObject, skill);
@@ -317,7 +319,7 @@ recallKnowledge.addEventListener('click', () => {
           rollClass = 'critical-success'
       } else if (((roll === 20 && skillRoll > dc-10) || (roll === 1 && skillRoll >= dc+10)) || skillRoll >= dc) {
           rollClass = 'success'
-      } else if (((roll === 20 && skillRoll <= dc-10) || (roll === 1 && skillRoll >= dc)) || skillRoll > dc-10) {
+      } else if (((roll === 20 && skillRoll <= dc-10) || (roll === 1 && skillRoll >= dc)) || (roll != 1 && skillRoll > dc-10)) {
           rollClass = 'failure'
       } else {
           rollClass = 'critical-failure'
@@ -345,7 +347,7 @@ rollPerception.addEventListener('click', () => {
       rollClass = 'critical-success'
     } else if (((roll === 20 && skillRoll > dc-10) || (roll === 1 && skillRoll >= dc+10)) || skillRoll >= dc) {
         rollClass = 'success'
-    } else if (((roll === 20 && skillRoll <= dc-10) || (roll === 1 && skillRoll >= dc)) || skillRoll > dc-10) {
+    } else if (((roll === 20 && skillRoll <= dc-10) || (roll === 1 && skillRoll >= dc)) || (roll != 1 && skillRoll > dc-10)) {
         rollClass = 'failure'
     } else {
         rollClass = 'critical-failure'
@@ -381,7 +383,7 @@ rollAllButton.addEventListener('click', () => {
               rollClass = 'critical-success'
           } else if (((roll === 20 && skillRoll > dc-10) || (roll === 1 && skillRoll >= dc+10)) || skillRoll >= dc) {
               rollClass = 'success'
-          } else if (((roll === 20 && skillRoll <= dc-10) || (roll === 1 && skillRoll >= dc)) || skillRoll > dc-10) {
+          } else if (((roll === 20 && skillRoll <= dc-10) || (roll === 1 && skillRoll >= dc)) || (roll != 1 && skillRoll > dc-10)) {
               rollClass = 'failure'
           } else {
               rollClass = 'critical-failure'
@@ -394,6 +396,7 @@ rollAllButton.addEventListener('click', () => {
 
 //rollAll
 
+manualInput.addEventListener('change', event => manualDC = parseInt(event.target.value))
 
 //Monster Search Form//----->
 monsterForm.addEventListener('submit', function(e){
