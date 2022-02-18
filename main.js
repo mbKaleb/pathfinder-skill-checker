@@ -94,6 +94,7 @@ function createNewCharacter(){//DO NOT REFERENCE THE OBJECT BY ID
          const skillLabel = document.createElement('label');skillLabel.className = `${skill} skill-label skilldiv`;skillLabel.textContent = `${skill}`
         // const skillTotalLabel = document.createElement('div');skillTotalLabel.className = `${skill} skill-total-label skilldiv`;skillTotalLabel.textContent = 'PLACEHOLDER' THIS WILL NEED AN EVENT LISTENER LATER
         // partyArray[localCharacterObject.id.slice(2)] = localChar           ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        console.log(this.callee)
         liParent.append(skillLabel, trainingDropdown(localCharacterObject, skill));
       skillsList.append(liParent);
     })
@@ -118,9 +119,12 @@ function renderSheet(characterObject){
     const nameBox = document.createElement('div');nameBox.className = "name-box"; nameBox.textContent = `${characterObject.name}`
     const LevelLabel = document.createElement('label');LevelLabel.className = "level-label";LevelLabel.textContent = 'Level';
     const levelBox = document.createElement('label');levelBox.className = "level-box"; levelBox.textContent = `${characterObject.level}`
-    const editBttn = document.createElement('button');editBttn.className = 'bttn edit-bttn sheet-bttn';editBttn.textContent = 'EDIT'
+
+    const editBttn = document.createElement('button');editBttn.className = 'bttn edit-bttn sheet-bttn';editBttn.value = 'EDIT'
       editBttn.addEventListener('click', function(){
-          const thisSheet = this.parentElement;
+
+          const thisSheet = this.parentElement.parentNode;
+          thisSheet.remove();
           editSheet(characterObject, thisSheet); //need to target parent sheet and the object to edit ///////////////////////////////////////////////////////////////////////////////////////
       })
 
@@ -161,12 +165,11 @@ function renderSheet(characterObject){
 
 //Edit Character------------------------------------>
 function editSheet(characterObjectTarget, sheetTarget){
-  // characterObjectTarget
+  
 
   //Parents
   const editSheetForm = document.createElement("form");editSheetForm.className = "character-sheet new-sheet";
   editSheetForm.setAttribute("id", `id${characterObjectTarget.id}`);
-
   //Headers//----->
   const headers = document.createElement('header');
 
@@ -182,8 +185,8 @@ function editSheet(characterObjectTarget, sheetTarget){
   const applyBttn = document.createElement('button');applyBttn.className = 'bttn edit-bttn';applyBttn.textContent = 'Apply'
           applyBttn.addEventListener('click',function(e){
               this.parentElement.remove()
-              sheetTarget.remove()
-              renderSheet(characterObjectTarget)
+              // sheetTarget.remove()
+              // renderSheet(characterObjectTarget)
       })
   //----->
 
@@ -210,19 +213,16 @@ function editSheet(characterObjectTarget, sheetTarget){
           }})
       //----->
   //----->
-
+          console.log(sheetTarget)
       //Skills List with dropdown and active total//----->
       skills.forEach((skill) => {
-          const liParent = document.createElement('li');liParent.className = `${skill} skill-list`;
-            const skillLabel = document.createElement('div');skillLabel.className = `${skill} skill-label skilldiv`;skillLabel.textContent = `${skill}`
-          // const skillTotalLabel = document.createElement('div');skillTotalLabel.className = `${skill} skill-total-label skilldiv`;skillTotalLabel.textContent = 'PLACEHOLDER' THIS WILL NEED AN EVENT LISTENER LATER
-          // partyArray[localCharacterObject.id.slice(2)] = localChar           ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-          liParent.append(skillLabel, trainingDropdown());
-      skillsList.append(liParent);})
+        const listParent = document.createElement('li');listParent.className = `${skill} skill-list`;
+      skillsList.append(listParent);
+    })
 
       //Appenders//----->
-      headers.append(nameInput, levelInput)
-      editSheetForm.append(headers, abilityModForm, skillsList, applyBttn)
+      headers.append(nameInput, levelInput, LevelLabel)
+      editSheetForm.append(headers, abilityModForm, skillsList)
       sheetContainer.append(editSheetForm)
 }
 
@@ -233,6 +233,7 @@ function editSheet(characterObjectTarget, sheetTarget){
 
 //Training Dropdown//----->
 function trainingDropdown(objectTarget, skillTarget){
+  // console.log('ran')
   const dropdown = document.createElement("select");dropdown.className = 'skilldiv'
 
   const untrained = document.createElement("option");untrained.className = 'untrained'
