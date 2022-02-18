@@ -11,102 +11,229 @@ const monsterParent = document.querySelector('#monsterData')
 const monsterName = document.querySelector('#monsterName')
 const monsterDC = document.querySelector('#MonsterDC')
 
-
+const addNewCharacter = document.getElementById('newCharacterButton').addEventListener('click',function(e){createNewCharacter()})
 //Global variables
 const skills = ['perception','acrobatics' ,'arcana', 'athletics', 'crafting', 'deception', 'diplomacy', 'intimidation', 'medicine', 'Nature', 'Occultism', 'performance', 'religion', 'society', 'stealth', 'survival', 'thievery'];
+
 const abilityMods = ['STR','DEX','CON','INT','WIS','CHA'];
-
+const attribturesArr = ['strength', 'dexterity',  'constitution', 'intelligence', 'wisdom', 'charisma']
 const partyArray = [];
-let sheetId =0;
+let sheetIdCounter =0;
 
-let activeMonster = {}
 let manualInput = document.querySelector('#manualInput')
 let manualDC = parseInt(manualInput.value)
-//renders
 
 
 
+//Sheet Functions//----->
 
-//table prototype
 
-// function generateTable(){
-//   const tbl = document.createElement("table");
-//   const tblBody = document.createElement("tbody");
+
+//Create New Character Function//----->
+function createNewCharacter(){//DO NOT REFERENCE THE OBJECT BY ID 
+
+  const localCharacterObject = { ...characterObj};
+  localCharacterObject.id = sheetIdCounter;
+  sheetIdCounter ++;
+  partyArray.push(localCharacterObject)
+  //Parents
+  const newCharacterSheet = document.createElement("div");newCharacterSheet.className = "character-sheet new-sheet";
+  newCharacterSheet.setAttribute("id", `id${localCharacterObject.id}`);
+  skillsList = document.createElement('ul');skillsList.className = 'list-parent-parent'
   
-//   for (var i = 0; i < 1; i++){
-//     const row = document.createElement('tr')
-//     const cell1 = document.createElement('td');const dropdown = trainingDropdown();cell1.append(dropdown)
-//     const cell2 = document.createElement('td');const skillCell = document.createTextNode('skill');cell2.append(skillCell)
-//     const cell3 = document.createElement('td');const totalCell = document.createTextNode('Total');cell3.append(totalCell)
-//     const cell4 = document.createElement('td');const abilityCell = document.createTextNode('Ability');cell4.append(abilityCell)
-//     const cell5 = document.createElement('td');const profCell = document.createTextNode('Prof.');cell5.append(profCell)
-//     const cell6 = document.createElement('td');const itemCell = document.createTextNode('Item');cell6.append(itemCell)
-//     const cell7 = document.createElement('td');const tempCell = document.createTextNode('Temp');cell7.append(tempCell)
-//     row.append(cell1 ,cell2 ,cell3 ,cell4 ,cell5 ,cell6 ,cell7)
-//     console.log(row)
-//     tblBody.appendChild(row)
-//   }
-//   tbl.appendChild(tblBody)
-//   toolBox.appendChild(tbl)
-//   tbl.setAttribute("border", "2");
-// }
+  //Headers//----->
+  const headers = document.createElement('header');
 
-//Good Code Below Only
+  const nameInput = document.createElement('input');nameInput.className = "div name-box";nameInput.textContent = `${localCharacterObject.name}`;nameInput.defaultValue = 'Enter name...'
+  nameInput.addEventListener('submit', function(e){e.preventDefault()})
+  nameInput.addEventListener('change', function(e) {
+    e.preventDefault();
+    localCharacterObject.name = nameInput.value});
+    
+    const LevelLabel = document.createElement('label');LevelLabel.className = "div level-label";LevelLabel.textContent = 'Level';
+    const levelInput = document.createElement('input');levelInput.className = "div level-input";levelInput.textContent = `${localCharacterObject.level}`
+    levelInput.addEventListener('change', function(e) {
+      e.preventDefault();localCharacterObject.level = levelInput.value;});
+      
+      //Buttons//----->
+  const applyBttn = document.createElement('button');applyBttn.className = 'bttn apply-bttn';
+          applyBttn.addEventListener('click',function(e){
+              (this.parentNode).remove()
+              renderSheet(localCharacterObject)
+      })
+  //----->
 
-//renderer
-function renderEmptySheet(){
-  const characterDataObject = { ...characterObj};
+  //Ability Mod Form Maker//----->
+  const abilityModForm = document.createElement('form');abilityModForm.className = 'ability-mod-form';
 
+      abilityMods.forEach((ability) => {
+          const abilityModInput = document.createElement('input');abilityModInput.className = `${ability} ability ability-input`;abilityModInput.type = 'number';
+          abilityModForm.append(abilityModInput);
+      })
 
-  const characterSheet = document.createElement("div");characterSheet.className = "character-sheet"
-  characterSheet.setAttribute("id", `id${characterDataObject.id}`)
-
-
-  const nameBox = document.createElement('div');nameBox.className = "name-box"
-  const levelBox = document.createElement('div');levelBox.className = "level-box"
-  const skillsList = document.createElement('ul');skillsList.className = 'skill-list'
-
-  const editBttn = document.createElement('button');editBttn.className = 'edit-bttn'
-  editBttn.addEventListener('click', function(e){
-    callEditForm(this.parentElement)
-    this.removeEventListener('click', arguments.callee,false);
-
-  })
-
-
-  let counter = 0
-  skills.forEach((skill) => {
-    const liParent = document.createElement('li');liParent.className = `${skill} skill-list`;
-    if (counter % 2 === 1) {
-      liParent.classList.add('odd')
-    } else { liParent.classList.add('even')}
-    counter++
-    const skillLabel = document.createElement('div');skillLabel.className = `${skill} skill-label skilldiv`;skillLabel.textContent = `${skill.charAt(0).toUpperCase() + skill.slice(1)}`
-    const trainingLabel = document.createElement('div');trainingLabel.className = `${skill} training-label skilldiv`;trainingLabel.textContent = 'U'
-    const skillTotalLabel = document.createElement('div');skillTotalLabel.className = `${skill} skill-total-label skilldiv`;skillTotalLabel.textContent = '0'
-    const temporaryModLabel = document.createElement('input', type ="number");temporaryModLabel.className = `${skill} temporary-mod-label skilldiv`;temporaryModLabel.defaultValue = '0'
-    const skillRoll = document.createElement('div');skillRoll.className = `${skill} skill-roll skilldiv`;skillRoll.textContent = '-'
-    liParent.append(skillLabel,trainingLabel,skillTotalLabel,temporaryModLabel,skillRoll);
-    skillsList.append(liParent);
-  })
-
-    characterSheet.append(nameBox, levelBox, skillsList, editBttn);
-    sheetContainer.append(characterSheet);
-    partyArray.push(characterDataObject);
-  ++sheetId;
+      abilityMods.forEach((ability) => {
+          const abilityModLabel = document.createElement('label');abilityModLabel.className = `${ability} ability ability-label`;abilityModLabel.textContent = `${ability}`
+          abilityModForm.append(abilityModLabel)
+      })
+      //Ability Mod Form//----->
+      abilityModForm.addEventListener('change', function (e) {e.preventDefault();
+          localCharacterObject['attributes']['strength'] = parseInt(abilityModForm.childNodes[0].value);
+          localCharacterObject['attributes']['dexterity'] = parseInt(abilityModForm.childNodes[1].value);
+          localCharacterObject['attributes']['constitution'] = parseInt(abilityModForm.childNodes[2].value);
+          localCharacterObject['attributes']['intelligence'] = parseInt(abilityModForm.childNodes[3].value);
+          localCharacterObject['attributes']['wisdom'] = parseInt(abilityModForm.childNodes[4].value);
+          localCharacterObject['attributes']['charisma'] = parseInt(abilityModForm.childNodes[5].value);
+          for (skillKey in localCharacterObject.skills) {
+              localCharacterObject.skills[skillKey].attributeMod = localCharacterObject.attributes[localCharacterObject.skills[skillKey].attribute];
+          }})
+      //----->
+  //----->
+      //Skills List with dropdown and active total//----->
+    skills.forEach((skill) => {
+      const liParent = document.createElement('li');liParent.className = `${skill} skill-list list-parent`;
+         const skillLabel = document.createElement('label');skillLabel.className = `${skill} skill-label skilldiv`;skillLabel.textContent = `${skill}`
+        // const skillTotalLabel = document.createElement('div');skillTotalLabel.className = `${skill} skill-total-label skilldiv`;skillTotalLabel.textContent = 'PLACEHOLDER' THIS WILL NEED AN EVENT LISTENER LATER
+        // partyArray[localCharacterObject.id.slice(2)] = localChar           ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        liParent.append(skillLabel, trainingDropdown(localCharacterObject, skill));
+      skillsList.append(liParent);
+    })
+      //Appenders//----->
+      headers.append(nameInput, LevelLabel, levelInput)
+      newCharacterSheet.append(headers, abilityModForm, skillsList, applyBttn)
+      sheetContainer.append(newCharacterSheet)
 }
-renderEmptySheet();
+//----->
+
+
+//Render Character Sheet//----->
+
+function renderSheet(characterObject){
+
+  const characterSheet = document.createElement("div");characterSheet.className = "character-sheet sheet";
+  characterSheet.setAttribute("id", `id${characterObject.id}`);
+      const headers = document.createElement('header');headers.className = 'sheet-headers'
+      const skillsList = document.createElement('ul');skillsList.className = 'list-parent-parent'
+
+  //Headers//----->
+    const nameBox = document.createElement('div');nameBox.className = "name-box"; nameBox.textContent = `${characterObject.name}`
+    const LevelLabel = document.createElement('label');LevelLabel.className = "level-label";LevelLabel.textContent = 'Level';
+    const levelBox = document.createElement('label');levelBox.className = "level-box"; levelBox.textContent = `${characterObject.level}`
+    const editBttn = document.createElement('button');editBttn.className = 'bttn edit-bttn sheet-bttn';editBttn.textContent = 'EDIT'
+      editBttn.addEventListener('click', function(){
+          const thisSheet = this.parentElement;
+          editSheet(characterObject, thisSheet); //need to target parent sheet and the object to edit ///////////////////////////////////////////////////////////////////////////////////////
+      })
+
+    const rollBttn = document.createElement('button');rollBttn.className = 'bttn roll-bttn sheet-bttn';rollBttn.textContent = 'ROLL'
+      rollBttn.addEventListener('click',function(){
+          //rollCharacter()
+      })
+  //----->
+
+  //Skills List Maker//----->
+  let counter = 0;
+  skills.forEach((skill) => {
+    const listParent = document.createElement('li');listParent.className = `${skill} skill-list list-parent`;
+      if (counter % 2 == 1){listParent.classList.add('odd')} else {listParent.classList.add('even')}; // alterate colors for style
+    const skillLabel = document.createElement('label');skillLabel.className = `${skill} skill-list list-child skill-label`;skillLabel.textContent = `${skill}`
+    const trainingLabel = document.createElement('label');trainingLabel.className = `${skill} skill-list list-child training-label`;trainingLabel.textContent = trainingHandler(characterObject, skill);
+    const skillTotal = document.createElement('label');skillTotal.className = `${skill} skill-list list-child total-label`;skillTotal.textContent = skillModHandler(characterObject, skill);
+  //   const tempInput = document.createElement('input');tempInput.type = 'number';tempInput.className = `${skill} temporary-mod-label skilldiv`;tempInput.defaultValue = "0";
+      // tempInput.addEventListener('change', function(e){
+  //       tempInputHandler(characterObject, skill, tempInput)
+    const rollField = document.createElement('label');rollField.className = 'roll-field';rollField.textContent = '-'
+  listParent.append(skillLabel,trainingLabel,skillTotal,rollField)
+  skillsList.append(listParent)
+  });
+  //----->
+
+
+  //Appenders//----->
+  headers.append(nameBox, LevelLabel, editBttn, levelBox, rollBttn)
+  characterSheet.append(headers,skillsList)
+
+  sheetContainer.append(characterSheet)
+}
+//----->
 
 
 
 
+//Edit Character------------------------------------>
+function editSheet(characterObjectTarget, sheetTarget){
+  // characterObjectTarget
+
+  //Parents
+  const editSheetForm = document.createElement("form");editSheetForm.className = "character-sheet new-sheet";
+  editSheetForm.setAttribute("id", `id${characterObjectTarget.id}`);
+
+  //Headers//----->
+  const headers = document.createElement('header');
+
+  //Buttons//----->
+  const nameInput = document.createElement('input');nameInput.className = "div name-box";nameInput.textContent = `${characterObjectTarget.name}`;nameInput.value = `${characterObjectTarget.name}`;
+      nameInput.addEventListener('change', function(e) {
+          e.preventDefault();localChar.name = nameInput.value});
+
+  const levelInput = document.createElement('input');levelInput.className = "div level-box";levelInput.textContent = `${characterObjectTarget.level}`;nameInput.defaultValue = `${characterObjectTarget.level}`;
+      levelInput.addEventListener('change', function(e) {
+          e.preventDefault();localChar.level = levelInput.value;});
+      
+  const applyBttn = document.createElement('button');applyBttn.className = 'bttn edit-bttn';applyBttn.textContent = 'Apply'
+          applyBttn.addEventListener('click',function(e){
+              this.parentElement.remove()
+              sheetTarget.remove()
+              renderSheet(characterObjectTarget)
+      })
+  //----->
+
+  //Ability Mod Form Maker//----->
+  const abilityModForm = document.createElement('form');abilityModForm.className = 'ability-mod-form';
+      attribturesArr.forEach((ability) => {
+          const abilityModInput = document.createElement('input');abilityModInput.className = `${ability} ability ability-input`;abilityModInput.value = `${characterObjectTarget['attributes'][ability]}`;
+          abilityModForm.append(abilityModInput);
+      })
+      abilityMods.forEach((ability) => {
+          const abilityModLabel = document.createElement('label');abilityModLabel.className = `${ability} ability ability-label`;abilityModLabel.textContent = `${ability}`
+          abilityModForm.append(abilityModLabel)
+      })
+      //Ability Mod Form//----->
+      abilityModForm.addEventListener('change', function (e) {e.preventDefault();
+        characterObjectTarget['attributes']['strength'] = parseInt(abilityModForm.childNodes[0].value);
+        characterObjectTarget['attributes']['dexterity'] = parseInt(abilityModForm.childNodes[1].value);
+        characterObjectTarget['attributes']['constitution'] = parseInt(abilityModForm.childNodes[2].value);
+        characterObjectTarget['attributes']['intelligence'] = parseInt(abilityModForm.childNodes[3].value);
+        characterObjectTarget['attributes']['wisdom'] = parseInt(abilityModForm.childNodes[4].value);
+        characterObjectTarget['attributes']['charisma'] = parseInt(abilityModForm.childNodes[5].value);
+          for (skillKey in characterObjectTarget.skills) {
+            characterObjectTarget.skills[skillKey].attributeMod = characterObjectTarget.attributes[characterObjectTarget.skills[skillKey].attribute];
+          }})
+      //----->
+  //----->
+
+      //Skills List with dropdown and active total//----->
+      skills.forEach((skill) => {
+          const liParent = document.createElement('li');liParent.className = `${skill} skill-list`;
+            const skillLabel = document.createElement('div');skillLabel.className = `${skill} skill-label skilldiv`;skillLabel.textContent = `${skill}`
+          // const skillTotalLabel = document.createElement('div');skillTotalLabel.className = `${skill} skill-total-label skilldiv`;skillTotalLabel.textContent = 'PLACEHOLDER' THIS WILL NEED AN EVENT LISTENER LATER
+          // partyArray[localCharacterObject.id.slice(2)] = localChar           ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+          liParent.append(skillLabel, trainingDropdown());
+      skillsList.append(liParent);})
+
+      //Appenders//----->
+      headers.append(nameInput, levelInput)
+      editSheetForm.append(headers, abilityModForm, skillsList, applyBttn)
+      sheetContainer.append(editSheetForm)
+}
+
+
+//----->
 
 
 
-//trainging Dropdown
-
+//Training Dropdown//----->
 function trainingDropdown(objectTarget, skillTarget){
-  const dropdown = document.createElement("select");dropdown.className = 'horg'
+  const dropdown = document.createElement("select");dropdown.className = 'skilldiv'
 
   const untrained = document.createElement("option");untrained.className = 'untrained'
     untrained.textContent = "Untrained"
@@ -120,8 +247,6 @@ function trainingDropdown(objectTarget, skillTarget){
     legendary.textContent = "Legendary"
 
     dropdown.addEventListener('change', function(){
-      console.log(objectTarget['skills'][skillTarget.toLowerCase()])
-      console.log(skillTarget)
       if (this.value == 'Untrained') {objectTarget['skills'][skillTarget.toLowerCase()]['proficiency'] = 0}
       else if (this.value == 'Trained') {objectTarget['skills'][skillTarget.toLowerCase()]['proficiency'] = 2}
       else if (this.value == 'Expert') {objectTarget['skills'][skillTarget.toLowerCase()]['proficiency'] = 4}
@@ -136,6 +261,9 @@ function trainingDropdown(objectTarget, skillTarget){
     dropdown.append(untrained, trained, expert, master, legendary)
   return dropdown;
 }
+
+
+
 
 
 //dice roller
@@ -162,9 +290,6 @@ function clearRollFields(characterObj) {
   for (skill in characterObj.skills) {
     const rollField = document.querySelector(`div#id${characterObj.id} li.${skill.toLowerCase()} div.skill-roll`) // id change
     rollField.innerText = '-'
-
-    const skillLi = document.querySelector(`div#id${characterObj.id} li.${skill.toLowerCase()}`)
-    skillLi.classList.remove('critical-success','success','failure','critical-failure')
   }
 }
 
@@ -271,10 +396,9 @@ rollAllButton.addEventListener('click', () => {
 
 //rollAll
 
-//handlers
-
 manualInput.addEventListener('change', event => manualDC = parseInt(event.target.value))
 
+//Monster Search Form//----->
 monsterForm.addEventListener('submit', function(e){
   e.preventDefault();
   let monsterResult = helperMyInput.value
@@ -282,117 +406,50 @@ monsterForm.addEventListener('submit', function(e){
   monsterForm.reset();
 })
 
-
 function searchHandler(monsterResult){
   activeMonster = {...monstersData[monsterResult]}
   monsterName.textContent = monsterResult;
   monsterDC.textContent = `Skill DC: ${monstersData[monsterResult].monsterDC}`;
 }
+//----->
 
 
-function callEditForm(sheet){
-
-  /////
-  const editSheet = document.createElement('form');editSheet.className = "sheet";
-  const nameInput = document.createElement('input');nameInput.className = 'edit-name-input'
-  const levelInput = document.createElement('input');levelInput.className = 'edit-name-input'
-  const skillsList = document.createElement('ul');skillsList.className = 'skill-list'
-  const applyBttn = document.createElement('button');applyBttn.className = 'edit-bttn';applyBttn.setAttribute('type','button')
-  let localChar = {...partyArray[sheet.id.slice(2)]}
-  /////
-  
-  //Name and level listeners
-  nameInput.addEventListener('change', function(e) {
-    e.preventDefault();localChar.name = nameInput.value});
-  levelInput.addEventListener('change', function(e) {
-    e.preventDefault();localChar.level = levelInput.value;});
-  /////
-    
-  //Apply button
-  applyBttn.addEventListener('click',function(e){
-    
-
-  console.log(localChar)})
-
-  /////
-
-  //Ability Mod form and labels
-  const abilityModForm = document.createElement('form');abilityModForm.className = 'ability-mod-form';
-    abilityMods.forEach((ability) => {
-      const abilityModInput = document.createElement('input');abilityModInput.className = `${ability} ability ability-input`;
-      abilityModForm.append(abilityModInput);
-    })
-
-    abilityMods.forEach((ability) => {
-      const abilityModLabel = document.createElement('label');abilityModLabel.className = `${ability} ability ability-label`;abilityModLabel.textContent = `${ability}`
-      abilityModForm.append(abilityModLabel)
-    })
-    abilityModForm.addEventListener('change', function (e) {e.preventDefault()
-      localChar['attributes']['strength'] = parseInt(abilityModForm.childNodes[0].value);
-      localChar['attributes']['dexterity'] = parseInt(abilityModForm.childNodes[1].value);
-      localChar['attributes']['constitution'] = parseInt(abilityModForm.childNodes[2].value);
-      localChar['attributes']['intelligence'] = parseInt(abilityModForm.childNodes[3].value);
-      localChar['attributes']['wisdom'] = parseInt(abilityModForm.childNodes[4].value);
-      localChar['attributes']['charisma'] = parseInt(abilityModForm.childNodes[5].value);
-
-      for (skillKey in localChar.skills) {
-        localChar.skills[skillKey].attributeMod = localChar.attributes[localChar.skills[skillKey].attribute];
-    }})
-  /////
-
-  //Skils [Label] [Dropdown]
-  skills.forEach((skill) => {
-    
-    const liParent = document.createElement('li');liParent.className = `${skill} skill-list`;
-      const skillLabel = document.createElement('div');skillLabel.className = `${skill} skill-label skilldiv`;skillLabel.textContent = `${skill}`
-      //[TRAINING DROPDOWN]
-      const skillTotalLabel = document.createElement('div');skillTotalLabel.className = `${skill} skill-total-label skilldiv`;skillTotalLabel.textContent = '35'
-    partyArray[sheet.id.slice(2)] = localChar
-    liParent.append(skillLabel, trainingDropdown(localChar, skill),skillTotalLabel);//total = 
-  skillsList.append(liParent);})
-
-  /////appenders
-  editSheet.addEventListener('submit', function(e){e.preventDefault;return})
-  editSheet.append(nameInput, levelInput, abilityModForm, skillsList, applyBttn);
-  sheetContainer.append(editSheet)
+//RENDER SHEET HANDLERS//----->
+function skillModHandler(characterObject, skill){
+  if (characterObject.skills[skill.toLowerCase()].proficiency) {
+    skillRoll = (characterObj.skills[skill.toLowerCase()].mod()[0]);
+    console.log(skillRoll)
+    return parseInt(`${characterObject.skills[skill.toLowerCase()].mod()[0] + characterObj.level}`)
 }
+else {
+    return parseInt(`${characterObject.skills[skill.toLowerCase()].mod()[0]}`)
+}}
+
+function trainingHandler(objectTarget, skillTarget){ //needs work
+  const targetHelper = objectTarget['skills'][skillTarget.toLowerCase()]['proficiency'];
+  if (targetHelper == 0){return 'U'}
+  else if(targetHelper == 0){return 'U'}
+  else if(targetHelper == 2){return 'T'}
+  else if(targetHelper == 4){return 'E'}
+  else if(targetHelper == 6){return 'M'}
+  else if(targetHelper == 8){return 'L'}
+}
+
+function tempInputHandler(objectTarget, skillTarget, inputTarget){
+  // let number = parseInt(inputTarget.value)
+
+  (objectTarget['skills'][skillTarget.toLowerCase()]['temporary']) = inputTarget.value;
+}
+//----->
+
 
 
 //temp mod handler
-
 function temporaryModInputFun(objectTarget, skillTarget){
   const tempInput = document.createElement("input");tempInput.className = 'horg'
   tempInput.addEventListener('change', function(){
     let helper = tempInput.value
-     objectTarget['skills'][skillTarget]['temporary'] = helper
+    objectTarget['skills'][skillTarget]['temporary'] = helper
   })
   return tempInput;
 }
-
-
-function eventHandler() {}//placeholder event handler for monster buttons
-/*
-
-    // helperNode = this.parentElement;
-    // editForm = document.createElement('div')
-    // editForm.className = 'form edit-form'
-  
-    // let charsheet = document.createElement('div')
-  
-    // const acceptBttn = document.createElement('button')
-    // acceptBttn.className = 'bttn accept-bttn'
-    // acceptBttn.textContent = "ACCEPT"
-    // acceptBttn.addEventListener('click', function(e){
-    //   //complex handlers that takes an object and updates an empty parent sheet 
-    // })
-    
-  
-    // const deleteBttn = document.createElement('button')
-    // deleteBttn.className = 'bttn cancel-bttn'
-    // deleteBttn.textContent = "CANCEL"
-    // console.log(this.parentElement)
-    // deleteBttn.addEventListener('click', function(e){ this.parentElement.remove()})
-  
-    // editForm.append(acceptBttn, deleteBttn)
-    // helperNode.appendChild(editForm)
-*/

@@ -1,8 +1,10 @@
 <html lang="en">
   <head>
+  
+    <link  rel="stylesheet" href="app.css" />
     <script defer src="search.js"></script>
-    <link defer rel="stylesheet" href="app.css" />
-    <!-- <link rel="stylesheet" href="./style.css"/> -->
+    <link rel="stylesheet" href="./style.css"/>
+
     <title>Pathmaster: Secret Skill Roller</title>
     
   </head>
@@ -37,9 +39,9 @@
       <div id="manualCard" class="card" name="manualCard">
         <div id = "manualDC">
           <h2>Manual DC:</h2>
-          <div name="manualInputForm" id='manualInputForm'>
-            <input type="text" id="manualInput" name="manualInput" placeholder="0">
-          </div>
+          <form name="manualInputForm" id='manualInputForm'>
+            <input type="text" id="manualInput" name="manualInput">
+          </form>
         </div>
         <div id="manualButtons">
           <button id="rollAllButton" class="regularButton" name="rollAllButton">Roll All</button>
@@ -49,8 +51,8 @@
     </div>
     <div id="characterCardDiv" class="background">
     </div>
+
     <script src="test.js"></script>
     <script defer src="main.js"></script>
+
   </body>
-  
-<!-- autocomplete(document.getElementById("myInput"), monsters); -->
