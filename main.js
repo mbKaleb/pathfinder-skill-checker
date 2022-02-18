@@ -177,8 +177,10 @@ function editSheet(characterObjectTarget, sheetTarget){
   const nameInput = document.createElement('input');nameInput.className = "div name-box";nameInput.textContent = `${characterObjectTarget.name}`;nameInput.value = `${characterObjectTarget.name}`;
       nameInput.addEventListener('change', function(e) {
           e.preventDefault();localChar.name = nameInput.value});
-
-  const levelInput = document.createElement('input');levelInput.className = "div level-box";levelInput.textContent = `${characterObjectTarget.level}`;nameInput.defaultValue = `${characterObjectTarget.level}`;
+          
+          
+  const LevelLabel = document.createElement('label');LevelLabel.className = "div level-label";LevelLabel.textContent = 'Level';
+  const levelInput = document.createElement('input');levelInput.className = "div level-input";levelInput.textContent = `${characterObjectTarget.level}`;nameInput.defaultValue = `${characterObjectTarget.level}`;
       levelInput.addEventListener('change', function(e) {
           e.preventDefault();localChar.level = levelInput.value;});
       
@@ -186,8 +188,8 @@ function editSheet(characterObjectTarget, sheetTarget){
           applyBttn.addEventListener('click',function(e){
               this.parentElement.remove()
               // sheetTarget.remove()
-              // renderSheet(characterObjectTarget)
-      })
+              renderSheet(characterObjectTarget)
+            })
   //----->
 
   //Ability Mod Form Maker//----->
@@ -215,14 +217,16 @@ function editSheet(characterObjectTarget, sheetTarget){
   //----->
           console.log(sheetTarget)
       //Skills List with dropdown and active total//----->
+      counter = 0 ;
       skills.forEach((skill) => {
         const listParent = document.createElement('li');listParent.className = `${skill} skill-list`;
+        if (counter % 2 ==1){ listParent.classList.add('even')} else {listParent.classList.add('odd')}
       skillsList.append(listParent);
     })
 
       //Appenders//----->
-      headers.append(nameInput, levelInput, LevelLabel)
-      editSheetForm.append(headers, abilityModForm, skillsList)
+      headers.append(nameInput, LevelLabel, levelInput)
+      editSheetForm.append(headers, abilityModForm, skillsList, applyBttn)
       sheetContainer.append(editSheetForm)
 }
 
