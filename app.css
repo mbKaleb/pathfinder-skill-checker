@@ -203,7 +203,6 @@ body {
   border: 2px solid #987849;
   color: #FFF;
   text-align: center;
-  
 }
 
 #buttonCard {
@@ -296,19 +295,18 @@ h2 {
   background-color: #1B1717;
   width: calc(25% - 16px);
   height: 84px;
+  text-align: center;
 }
 #manualDC {
-  float: left;
-  width: calc(40% - 16px);
+  width: 100%;
   margin: 8px;
   text-align: center;
-  height: 68px;
 }
 #manualInput {
   font-size: 16px;
   height: 28px;
   width: 40px;
-  text-align:center;
+  
 }
 #manualButtons {
   width: calc(60% - 8px);
@@ -339,4 +337,12 @@ h2 {
 }
 .critical-failure {
   color: #D50000;
+}
+#manualInputForm {
+  float: left;
+  width: 50%;
+}
+#manualButtons {
+  float: left;
+  width: 50%;
 }
