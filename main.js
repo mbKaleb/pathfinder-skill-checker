@@ -67,7 +67,7 @@ function createNewCharacter(){//DO NOT REFERENCE THE OBJECT BY ID
   const abilityModForm = document.createElement('form');abilityModForm.className = 'ability-mod-form';
 
       abilityMods.forEach((ability) => {
-          const abilityModInput = document.createElement('input');abilityModInput.className = `${ability} ability ability-input`;abilityModInput.type = 'number';
+          const abilityModInput = document.createElement('input');abilityModInput.className = `${ability} ability ability-input`;abilityModInput.type = 'number';abilityModInput.placeholder = 0;
           abilityModForm.append(abilityModInput);
       })
 
@@ -84,6 +84,7 @@ function createNewCharacter(){//DO NOT REFERENCE THE OBJECT BY ID
           localCharacterObject['attributes']['wisdom'] = parseInt(abilityModForm.childNodes[4].value);
           localCharacterObject['attributes']['charisma'] = parseInt(abilityModForm.childNodes[5].value);
           for (skillKey in localCharacterObject.skills) {
+            console.log(skillKey)
               localCharacterObject.skills[skillKey].attributeMod = localCharacterObject.attributes[localCharacterObject.skills[skillKey].attribute];
           }})
       //----->
@@ -91,7 +92,7 @@ function createNewCharacter(){//DO NOT REFERENCE THE OBJECT BY ID
       //Skills List with dropdown and active total//----->
     skills.forEach((skill) => {
       const liParent = document.createElement('li');liParent.className = `${skill} skill-list list-parent`;
-         const skillLabel = document.createElement('label');skillLabel.className = `${skill} skill-label skilldiv`;skillLabel.textContent = `${skill}`
+        const skillLabel = document.createElement('label');skillLabel.className = `${skill} skill-label skilldiv`;skillLabel.textContent = `${skill}`
         // const skillTotalLabel = document.createElement('div');skillTotalLabel.className = `${skill} skill-total-label skilldiv`;skillTotalLabel.textContent = 'PLACEHOLDER' THIS WILL NEED AN EVENT LISTENER LATER
         // partyArray[localCharacterObject.id.slice(2)] = localChar           ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         console.log(this.callee)
@@ -116,9 +117,9 @@ function renderSheet(characterObject){
       const skillsList = document.createElement('ul');skillsList.className = 'list-parent-parent'
 
   //Headers//----->
-    const nameBox = document.createElement('div');nameBox.className = "name-box"; nameBox.textContent = `${characterObject.name}`
+    const nameBox = document.createElement('div');nameBox.className = "name-box";nameBox.textContent = `${characterObject.name}`
     const LevelLabel = document.createElement('label');LevelLabel.className = "level-label";LevelLabel.textContent = 'Level';
-    const levelBox = document.createElement('label');levelBox.className = "level-box"; levelBox.textContent = `${characterObject.level}`
+    const levelBox = document.createElement('label');levelBox.className = "level-box"; levelBox.textContent = `${characterObject.level}`;
 
     const editBttn = document.createElement('button');editBttn.className = 'bttn edit-bttn sheet-bttn';editBttn.value = 'EDIT'
       editBttn.addEventListener('click', function(){
@@ -180,7 +181,7 @@ function editSheet(characterObjectTarget, sheetTarget){
           
           
   const LevelLabel = document.createElement('label');LevelLabel.className = "div level-label";LevelLabel.textContent = 'Level';
-  const levelInput = document.createElement('input');levelInput.className = "div level-input";levelInput.textContent = `${characterObjectTarget.level}`;nameInput.defaultValue = `${characterObjectTarget.level}`;
+  const levelInput = document.createElement('input');levelInput.className = "div level-input";levelInput.textContent = `${characterObjectTarget.level}`;levelInput.defaultValue = `${characterObjectTarget.level}`;level
       levelInput.addEventListener('change', function(e) {
           e.preventDefault();localChar.level = levelInput.value;});
       
@@ -293,7 +294,7 @@ rollPerception = document.querySelector('#rollPerceptionButton')
 
 function clearRollFields(characterObj) {
   for (skill in characterObj.skills) {
-    const rollField = document.querySelector(`div#id${characterObj.id} li.${skill.toLowerCase()} div.skill-roll`) // id change
+    const rollField = document.querySelector(`div#id${characterObj.id} li.${skill.toLowerCase()} label.roll-field`) // id change
     rollField.innerText = '-'
   }
 }
@@ -315,7 +316,7 @@ recallKnowledge.addEventListener('click', () => {
           skillRoll = (characterObj.skills[skill.toLowerCase()].mod()[0] + roll);
       }
       
-      const rollField = document.querySelector(`div#id${characterObj.id} li.${skill.toLowerCase()} div.skill-roll`) // id change
+      const rollField = document.querySelector(`div#id${characterObj.id} li.${skill.toLowerCase()} label.roll-field`) // id change
       rollField.innerText = skillRoll
       
       const background = document.querySelector(`#id${characterObj.id} li.${skill.toLowerCase()}`)
@@ -343,7 +344,7 @@ rollPerception.addEventListener('click', () => {
     let skillRoll = (characterObj.skills['perception'].mod()[0] + characterObj.level + roll);
     let dc = manualDC
     
-    const rollField = document.querySelector(`div#id${characterObj.id} li.perception div.skill-roll`) // id change
+    const rollField = document.querySelector(`div#id${characterObj.id} li.perception label.roll-field`) // id change
     rollField.innerText = skillRoll
     
     const background = document.querySelector(`#id${characterObj.id} li.perception`)
@@ -379,7 +380,7 @@ rollAllButton.addEventListener('click', () => {
               skillRoll = (characterObj.skills[skill.toLowerCase()].mod()[0] + roll);
           }
           
-          const rollField = document.querySelector(`div#id${characterObj.id} li.${skill.toLowerCase()} div.skill-roll`) // id change
+          const rollField = document.querySelector(`div#id${characterObj.id} li.${skill.toLowerCase()} label.roll-field`) // id change
           rollField.innerText = skillRoll
           
           const background = document.querySelector(`#id${characterObj.id} li.${skill.toLowerCase()}`)
@@ -454,7 +455,7 @@ function temporaryModInputFun(objectTarget, skillTarget){
   const tempInput = document.createElement("input");tempInput.className = 'horg'
   tempInput.addEventListener('change', function(){
     let helper = tempInput.value
-     objectTarget['skills'][skillTarget]['temporary'] = helper
+    objectTarget['skills'][skillTarget]['temporary'] = helper
   })
   return tempInput;
 }

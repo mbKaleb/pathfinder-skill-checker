@@ -60,7 +60,7 @@ li.failure {
 }
 li.critical-failure {
   background-color: #D50000;
-}
+}----
 .skill-label {
   font-size: 16px;
   width: 25%;
