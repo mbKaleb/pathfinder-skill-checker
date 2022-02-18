@@ -20,7 +20,8 @@ const partyArray = [];
 let sheetId =0;
 
 let activeMonster = {}
-let manualDC = 0
+let manualInput = document.querySelector('#manualInput')
+let manualDC = parseInt(manualInput.value)
 //renders
 
 
@@ -72,15 +73,21 @@ function renderEmptySheet(){
 
   })
 
+
+  let counter = 0
   skills.forEach((skill) => {
     const liParent = document.createElement('li');liParent.className = `${skill} skill-list`;
-      const skillLabel = document.createElement('div');skillLabel.className = `${skill} skill-label skilldiv`;skillLabel.textContent = `${skill}`
-      const trainingLabel = document.createElement('div');trainingLabel.className = `${skill} training-label skilldiv`;trainingLabel.textContent = 'U'
-      const skillTotalLabel = document.createElement('div');skillTotalLabel.className = `${skill} skill-total-label skilldiv`;skillTotalLabel.textContent = '35'
-      const temporaryModLabel = document.createElement('input', type ="number");temporaryModLabel.className = `${skill} temporary-mod-label skilldiv`;temporaryModLabel.defaultValue = "temp"
-      const skillRoll = document.createElement('div');skillRoll.className = `${skill} skill-roll skilldiv`;skillRoll.textContent = '-'
-      liParent.append(skillLabel,trainingLabel,skillTotalLabel,temporaryModLabel,skillRoll);
-      skillsList.append(liParent);
+    if (counter % 2 === 1) {
+      liParent.classList.add('odd')
+    } else { liParent.classList.add('even')}
+    counter++
+    const skillLabel = document.createElement('div');skillLabel.className = `${skill} skill-label skilldiv`;skillLabel.textContent = `${skill.charAt(0).toUpperCase() + skill.slice(1)}`
+    const trainingLabel = document.createElement('div');trainingLabel.className = `${skill} training-label skilldiv`;trainingLabel.textContent = 'U'
+    const skillTotalLabel = document.createElement('div');skillTotalLabel.className = `${skill} skill-total-label skilldiv`;skillTotalLabel.textContent = '0'
+    const temporaryModLabel = document.createElement('input', type ="number");temporaryModLabel.className = `${skill} temporary-mod-label skilldiv`;temporaryModLabel.defaultValue = '0'
+    const skillRoll = document.createElement('div');skillRoll.className = `${skill} skill-roll skilldiv`;skillRoll.textContent = '-'
+    liParent.append(skillLabel,trainingLabel,skillTotalLabel,temporaryModLabel,skillRoll);
+    skillsList.append(liParent);
   })
 
     characterSheet.append(nameBox, levelBox, skillsList, editBttn);
@@ -155,6 +162,9 @@ function clearRollFields(characterObj) {
   for (skill in characterObj.skills) {
     const rollField = document.querySelector(`div#id${characterObj.id} li.${skill.toLowerCase()} div.skill-roll`) // id change
     rollField.innerText = '-'
+
+    const skillLi = document.querySelector(`div#id${characterObj.id} li.${skill.toLowerCase()}`)
+    skillLi.classList.remove('critical-success','success','failure','critical-failure')
   }
 }
 
@@ -184,7 +194,7 @@ recallKnowledge.addEventListener('click', () => {
           rollClass = 'critical-success'
       } else if (((roll === 20 && skillRoll > dc-10) || (roll === 1 && skillRoll >= dc+10)) || skillRoll >= dc) {
           rollClass = 'success'
-      } else if (((roll === 20 && skillRoll <= dc-10) || (roll === 1 && skillRoll >= dc)) || skillRoll > dc-10) {
+      } else if (((roll === 20 && skillRoll <= dc-10) || (roll === 1 && skillRoll >= dc)) || (roll != 1 && skillRoll > dc-10)) {
           rollClass = 'failure'
       } else {
           rollClass = 'critical-failure'
@@ -212,7 +222,7 @@ rollPerception.addEventListener('click', () => {
       rollClass = 'critical-success'
     } else if (((roll === 20 && skillRoll > dc-10) || (roll === 1 && skillRoll >= dc+10)) || skillRoll >= dc) {
         rollClass = 'success'
-    } else if (((roll === 20 && skillRoll <= dc-10) || (roll === 1 && skillRoll >= dc)) || skillRoll > dc-10) {
+    } else if (((roll === 20 && skillRoll <= dc-10) || (roll === 1 && skillRoll >= dc)) || (roll != 1 && skillRoll > dc-10)) {
         rollClass = 'failure'
     } else {
         rollClass = 'critical-failure'
@@ -248,7 +258,7 @@ rollAllButton.addEventListener('click', () => {
               rollClass = 'critical-success'
           } else if (((roll === 20 && skillRoll > dc-10) || (roll === 1 && skillRoll >= dc+10)) || skillRoll >= dc) {
               rollClass = 'success'
-          } else if (((roll === 20 && skillRoll <= dc-10) || (roll === 1 && skillRoll >= dc)) || skillRoll > dc-10) {
+          } else if (((roll === 20 && skillRoll <= dc-10) || (roll === 1 && skillRoll >= dc)) || (roll != 1 && skillRoll > dc-10)) {
               rollClass = 'failure'
           } else {
               rollClass = 'critical-failure'
@@ -262,6 +272,8 @@ rollAllButton.addEventListener('click', () => {
 //rollAll
 
 //handlers
+
+manualInput.addEventListener('change', event => manualDC = parseInt(event.target.value))
 
 monsterForm.addEventListener('submit', function(e){
   e.preventDefault();
