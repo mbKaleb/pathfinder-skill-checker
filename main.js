@@ -13,7 +13,7 @@ const monsterDC = document.querySelector('#MonsterDC')
 
 const addNewCharacter = document.getElementById('newCharacterButton').addEventListener('click',function(e){createNewCharacter()})
 //Global variables
-const skills = ['perception','acrobatics' ,'arcana', 'athletics', 'crafting', 'deception', 'diplomacy', 'intimidation', 'medicine', 'Nature', 'Occultism', 'performance', 'religion', 'society', 'stealth', 'survival', 'thievery'];
+const skills = ['perception','acrobatics' ,'arcana', 'athletics', 'crafting', 'deception', 'diplomacy', 'intimidation', 'medicine', 'nature', 'occultism', 'performance', 'religion', 'society', 'stealth', 'survival', 'thievery'];
 
 const abilityMods = ['STR','DEX','CON','INT','WIS','CHA'];
 const attribturesArr = ['strength', 'dexterity',  'constitution', 'intelligence', 'wisdom', 'charisma']
@@ -25,49 +25,52 @@ let manualDC = parseInt(manualInput.value)
 
 
 
+
 //Sheet Functions//----->
 
 
-
-//Create New Character Function//----->
-function createNewCharacter(){//DO NOT REFERENCE THE OBJECT BY ID 
+//Create New Character Function//------------------------------------>
+function createNewCharacter(){//DO NOT REFERENCE THE OBJECT BY ID
 
   const localCharacterObject = { ...characterObj};
   localCharacterObject.id = sheetIdCounter;
   sheetIdCounter ++;
   partyArray.push(localCharacterObject)
-  //Parents
+
+  //Parents//----->
   const newCharacterSheet = document.createElement("div");newCharacterSheet.className = "character-sheet new-sheet";
   newCharacterSheet.setAttribute("id", `id${localCharacterObject.id}`);
   skillsList = document.createElement('ul');skillsList.className = 'list-parent-parent'
-  
+      newCharacterSheet.addEventListener('change', function(e){skillModUpdateHandler(localCharacterObject, e)})//Call update sheet on change
+  //----->
+
   //Headers//----->
   const headers = document.createElement('header');
-
-  const nameInput = document.createElement('input');nameInput.className = "div name-box";nameInput.textContent = `${localCharacterObject.name}`;nameInput.defaultValue = 'Enter name...'
-  nameInput.addEventListener('submit', function(e){e.preventDefault()})
-  nameInput.addEventListener('change', function(e) {
-    e.preventDefault();
-    localCharacterObject.name = nameInput.value});
+    const nameInput = document.createElement('input');nameInput.className = "div name-box";nameInput.textContent = `${localCharacterObject.name}`;
+    nameInput.addEventListener('change', function(){
+      localCharacterObject.name = nameInput.value
+    });
     
     const LevelLabel = document.createElement('label');LevelLabel.className = "div level-label";LevelLabel.textContent = 'Level';
     const levelInput = document.createElement('input');levelInput.className = "div level-input";levelInput.textContent = `${localCharacterObject.level}`
-    levelInput.addEventListener('change', function(e) {
-      e.preventDefault();localCharacterObject.level = levelInput.value;});
-      
+    levelInput.addEventListener('change', function() {
+      localCharacterObject.level = parseInt(levelInput.value);
+    });
+    //----->
+
       //Buttons//----->
   const applyBttn = document.createElement('button');applyBttn.className = 'bttn apply-bttn';
-          applyBttn.addEventListener('click',function(e){
-              (this.parentNode).remove()
-              renderSheet(localCharacterObject)
-      })
+    applyBttn.addEventListener('click',function(e){
+        (this.parentNode).remove()
+        renderSheet(localCharacterObject)
+    })
   //----->
 
   //Ability Mod Form Maker//----->
   const abilityModForm = document.createElement('form');abilityModForm.className = 'ability-mod-form';
 
       abilityMods.forEach((ability) => {
-          const abilityModInput = document.createElement('input');abilityModInput.className = `${ability} ability ability-input`;abilityModInput.type = 'number';
+          const abilityModInput = document.createElement('input');abilityModInput.className = `${ability} ability ability-input`;abilityModInput.type = 'number';abilityModInput.placeholder=0;
           abilityModForm.append(abilityModInput);
       })
 
@@ -75,7 +78,8 @@ function createNewCharacter(){//DO NOT REFERENCE THE OBJECT BY ID
           const abilityModLabel = document.createElement('label');abilityModLabel.className = `${ability} ability ability-label`;abilityModLabel.textContent = `${ability}`
           abilityModForm.append(abilityModLabel)
       })
-      //Ability Mod Form//----->
+
+      //Ability form listener
       abilityModForm.addEventListener('change', function (e) {e.preventDefault();
           localCharacterObject['attributes']['strength'] = parseInt(abilityModForm.childNodes[0].value);
           localCharacterObject['attributes']['dexterity'] = parseInt(abilityModForm.childNodes[1].value);
@@ -83,31 +87,33 @@ function createNewCharacter(){//DO NOT REFERENCE THE OBJECT BY ID
           localCharacterObject['attributes']['intelligence'] = parseInt(abilityModForm.childNodes[3].value);
           localCharacterObject['attributes']['wisdom'] = parseInt(abilityModForm.childNodes[4].value);
           localCharacterObject['attributes']['charisma'] = parseInt(abilityModForm.childNodes[5].value);
+          
           for (skillKey in localCharacterObject.skills) {
+            // if(localCharacterObject.attributes[localCharacterObject.skills[skillKey].attribute){};
               localCharacterObject.skills[skillKey].attributeMod = localCharacterObject.attributes[localCharacterObject.skills[skillKey].attribute];
           }})
       //----->
-  //----->
-      //Skills List with dropdown and active total//----->
+
+  //Skills List with dropdown and active total//----->
     skills.forEach((skill) => {
       const liParent = document.createElement('li');liParent.className = `${skill} skill-list list-parent`;
          const skillLabel = document.createElement('label');skillLabel.className = `${skill} skill-label skilldiv`;skillLabel.textContent = `${skill}`
-        // const skillTotalLabel = document.createElement('div');skillTotalLabel.className = `${skill} skill-total-label skilldiv`;skillTotalLabel.textContent = 'PLACEHOLDER' THIS WILL NEED AN EVENT LISTENER LATER
-        // partyArray[localCharacterObject.id.slice(2)] = localChar           ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        console.log(this.callee)
-        liParent.append(skillLabel, trainingDropdown(localCharacterObject, skill));
+        const skillTotalLabel = document.createElement('label');skillTotalLabel.className = `${skill} skill-total-label skilldiv`;skillTotalLabel.textContent = '0'
+        // console.log(localCharacterObject['skills'][skill.toLowerCase()].mod()[0]);
+      liParent.append(skillLabel, trainingDropdown(localCharacterObject, skill), skillTotalLabel);
       skillsList.append(liParent);
     })
-      //Appenders//----->
-      headers.append(nameInput, LevelLabel, levelInput)
-      newCharacterSheet.append(headers, abilityModForm, skillsList, applyBttn)
-      sheetContainer.append(newCharacterSheet)
+  //Appenders//----->
+  headers.append(nameInput, LevelLabel, levelInput)
+  newCharacterSheet.append(headers, abilityModForm, skillsList, applyBttn)
+  sheetContainer.append(newCharacterSheet)
 }
-//----->
+//---------------------------------------------->
+
+
 
 
 //Render Character Sheet//----->
-
 function renderSheet(characterObject){
 
   const characterSheet = document.createElement("div");characterSheet.className = "character-sheet sheet";
@@ -116,9 +122,9 @@ function renderSheet(characterObject){
       const skillsList = document.createElement('ul');skillsList.className = 'list-parent-parent'
 
   //Headers//----->
-    const nameBox = document.createElement('div');nameBox.className = "name-box"; nameBox.textContent = `${characterObject.name}`
+    const nameBox = document.createElement('div');nameBox.className = "name-box";nameBox.textContent = `${characterObject.name}`
     const LevelLabel = document.createElement('label');LevelLabel.className = "level-label";LevelLabel.textContent = 'Level';
-    const levelBox = document.createElement('label');levelBox.className = "level-box"; levelBox.textContent = `${characterObject.level}`
+    const levelBox = document.createElement('label');levelBox.className = "level-box"; levelBox.textContent = `${characterObject.level}`;
 
     const editBttn = document.createElement('button');editBttn.className = 'bttn edit-bttn sheet-bttn';editBttn.value = 'EDIT'
       editBttn.addEventListener('click', function(){
@@ -141,7 +147,8 @@ function renderSheet(characterObject){
       if (counter % 2 == 1){listParent.classList.add('odd')} else {listParent.classList.add('even')}; // alterate colors for style
     const skillLabel = document.createElement('label');skillLabel.className = `${skill} skill-list list-child skill-label`;skillLabel.textContent = `${skill}`
     const trainingLabel = document.createElement('label');trainingLabel.className = `${skill} skill-list list-child training-label`;trainingLabel.textContent = trainingHandler(characterObject, skill);
-    const skillTotal = document.createElement('label');skillTotal.className = `${skill} skill-list list-child total-label`;skillTotal.textContent = skillModHandler(characterObject, skill);
+    trainingLabel.classList.add(trainingLabel.textContent)
+    const skillTotal = document.createElement('label');skillTotal.className = `${skill} skill-list list-child total-label`;skillTotal.value = skillModHandler(characterObject, skill);
   //   const tempInput = document.createElement('input');tempInput.type = 'number';tempInput.className = `${skill} temporary-mod-label skilldiv`;tempInput.defaultValue = "0";
       // tempInput.addEventListener('change', function(e){
   //       tempInputHandler(characterObject, skill, tempInput)
@@ -174,9 +181,9 @@ function editSheet(characterObjectTarget, sheetTarget){
   const headers = document.createElement('header');
 
   //Buttons//----->
-  const nameInput = document.createElement('input');nameInput.className = "div name-box";nameInput.textContent = `${characterObjectTarget.name}`;nameInput.value = `${characterObjectTarget.name}`;
+  const nameInput = document.createElement('input');nameInput.className = "div name-box";nameInput.value = `${characterObjectTarget.name}`;//nameInput.value = `${characterObjectTarget.name}`;
       nameInput.addEventListener('change', function(e) {
-          e.preventDefault();localChar.name = nameInput.value});
+          e.preventDefault();characterObjectTarget.name = nameInput.value});
           
           
   const LevelLabel = document.createElement('label');LevelLabel.className = "div level-label";LevelLabel.textContent = 'Level';
@@ -186,9 +193,9 @@ function editSheet(characterObjectTarget, sheetTarget){
       
   const applyBttn = document.createElement('button');applyBttn.className = 'bttn edit-bttn';applyBttn.textContent = 'Apply'
           applyBttn.addEventListener('click',function(e){
-              this.parentElement.remove()
-              // sheetTarget.remove()
-              renderSheet(characterObjectTarget)
+            // sheetTarget.remove()
+            renderSheet(characterObjectTarget)
+            this.parentElement.remove()
             })
   //----->
 
@@ -215,13 +222,13 @@ function editSheet(characterObjectTarget, sheetTarget){
           }})
       //----->
   //----->
-          console.log(sheetTarget)
       //Skills List with dropdown and active total//----->
       counter = 0 ;
       skills.forEach((skill) => {
         const listParent = document.createElement('li');listParent.className = `${skill} skill-list`;
         if (counter % 2 ==1){ listParent.classList.add('even')} else {listParent.classList.add('odd')}
       skillsList.append(listParent);
+      counter ++
     })
 
       //Appenders//----->
@@ -229,43 +236,99 @@ function editSheet(characterObjectTarget, sheetTarget){
       editSheetForm.append(headers, abilityModForm, skillsList, applyBttn)
       sheetContainer.append(editSheetForm)
 }
-
-
 //----->
 
 
 
-//Training Dropdown//----->
-function trainingDropdown(objectTarget, skillTarget){
-  // console.log('ran')
-  const dropdown = document.createElement("select");dropdown.className = 'skilldiv'
+//SHEET DATA HANDLERS//----->
 
-  const untrained = document.createElement("option");untrained.className = 'untrained'
-    untrained.textContent = "Untrained"
-    const trained = document.createElement("option")
-    trained.textContent = "Trained"
-    const expert = document.createElement("option")
-    expert.textContent = "Expert"
-    const master = document.createElement("option")
-    master.textContent = "Master"
-    const legendary = document.createElement("option")
-    legendary.textContent = "Legendary"
+  function skillModHandler(characterObject, skill){
+    if (characterObject.skills[skill.toLowerCase()].proficiency) {
+      return parseInt(`${characterObject.skills[skill.toLowerCase()].mod()[0] + characterObject.level}`)
+  }
+  else {
+      return parseInt(`${characterObject.skills[skill.toLowerCase()].mod()}`)
+  }}
 
-    dropdown.addEventListener('change', function(){
-      if (this.value == 'Untrained') {objectTarget['skills'][skillTarget.toLowerCase()]['proficiency'] = 0}
-      else if (this.value == 'Trained') {objectTarget['skills'][skillTarget.toLowerCase()]['proficiency'] = 2}
-      else if (this.value == 'Expert') {objectTarget['skills'][skillTarget.toLowerCase()]['proficiency'] = 4}
-      else if (this.value == 'Master') {objectTarget['skills'][skillTarget.toLowerCase()]['proficiency'] = 6}
-      else if (this.value == 'Legendary') {objectTarget['skills'][skillTarget.toLowerCase()]['proficiency'] = 8}
-      else {console.log('dropdown ERROR')}
-      // objectTarget.skills[skillTarget].mod()
-      
-      // console.log('objectTarget.skills[skillTarget].mod(): ', objectTarget.skills[skillTarget].mod());
-      
+
+  //Training Label Handler//----->
+  function trainingHandler(objectTarget, skillTarget){ //needs work
+    const targetHelper = objectTarget['skills'][skillTarget.toLowerCase()]['proficiency'];
+    if (targetHelper == 0){return 'U'}
+    else if(targetHelper == 0){return 'U'}
+    else if(targetHelper == 2){return 'T'}
+    else if(targetHelper == 4){return 'E'}
+    else if(targetHelper == 6){return 'M'}
+    else if(targetHelper == 8){return 'L'}
+  }
+  //----->
+
+
+  //----->
+  function skillModUpdateHandler(localCharacterObject, event){
+    // console.log(localCharacterObject.skills.perception.mod())
+    for (skill in localCharacterObject.skills){
+      let skillTotalLabelHelper = document.querySelector(`label.${skill}:not(.skill-label)`)//not correct value with level
+      let modHelper = parseInt(skillModHandler(localCharacterObject, skill))
+      if (modHelper) {skillTotalLabelHelper.textContent = modHelper}
+      else {skillTotalLabelHelper.textContent = 0}
+    }
+  }
+
+
+
+
+
+  //TempInput handler(for edit sheet)//---->
+  function tempInputHandler(objectTarget, skillTarget, inputTarget){
+    // let number = parseInt(inputTarget.value)
+
+    (objectTarget['skills'][skillTarget.toLowerCase()]['temporary']) = inputTarget.value;
+  }
+  //----->
+
+
+  //Temp mod hander//-----> call this after you give an input to temp input
+  function temporaryModInputFun(objectTarget, skillTarget){
+    const tempInput = document.createElement("input");tempInput.className = 'horg'
+    tempInput.addEventListener('change', function(){
+      let helper = tempInput.value
+      objectTarget['skills'][skillTarget]['temporary'] = helper
     })
-    dropdown.append(untrained, trained, expert, master, legendary)
-  return dropdown;
-}
+    return tempInput;
+  }
+
+
+  //Training Dropdown//----->
+  function trainingDropdown(objectTarget, skillTarget){
+    // console.log('ran')
+    const dropdown = document.createElement("select");//dropdown.className = 'skilldiv'
+
+    const untrained = document.createElement("option");untrained.className = 'untrained'
+      untrained.textContent = "Untrained"
+      const trained = document.createElement("option");trained.className = 'trained'
+      trained.textContent = "Trained"
+      const expert = document.createElement("option");expert.className = 'expert'
+      expert.textContent = "Expert"
+      const master = document.createElement("option");master.className = 'master'
+      master.textContent = "Master"
+      const legendary = document.createElement("option");legendary.className = 'legendary'
+      legendary.textContent = "Legendary"
+
+      dropdown.addEventListener('change', function(){
+        if (this.value == 'Untrained') {objectTarget['skills'][skillTarget.toLowerCase()]['proficiency'] = 0}
+        else if (this.value == 'Trained') {objectTarget['skills'][skillTarget.toLowerCase()]['proficiency'] = 2}
+        else if (this.value == 'Expert') {objectTarget['skills'][skillTarget.toLowerCase()]['proficiency'] = 4}
+        else if (this.value == 'Master') {objectTarget['skills'][skillTarget.toLowerCase()]['proficiency'] = 6}
+        else if (this.value == 'Legendary') {objectTarget['skills'][skillTarget.toLowerCase()]['proficiency'] = 8}
+        // objectTarget.skills[skillTarget].mod()
+        
+        // console.log('objectTarget.skills[skillTarget].mod(): ', objectTarget.skills[skillTarget].mod());
+        
+      })
+      dropdown.append(untrained, trained, expert, master, legendary)
+    return dropdown;
+  }
 
 
 
@@ -293,7 +356,7 @@ rollPerception = document.querySelector('#rollPerceptionButton')
 
 function clearRollFields(characterObj) {
   for (skill in characterObj.skills) {
-    const rollField = document.querySelector(`div#id${characterObj.id} li.${skill.toLowerCase()} div.skill-roll`) // id change
+    const rollField = document.querySelector(`div#id${characterObj.id} li.${skill.toLowerCase()} label.roll-field`) // id change
     rollField.innerText = '-'
   }
 }
@@ -315,7 +378,7 @@ recallKnowledge.addEventListener('click', () => {
           skillRoll = (characterObj.skills[skill.toLowerCase()].mod()[0] + roll);
       }
       
-      const rollField = document.querySelector(`div#id${characterObj.id} li.${skill.toLowerCase()} div.skill-roll`) // id change
+      const rollField = document.querySelector(`div#id${characterObj.id} li.${skill.toLowerCase()} label.roll-field`) // id change
       rollField.innerText = skillRoll
       
       const background = document.querySelector(`#id${characterObj.id} li.${skill.toLowerCase()}`)
@@ -343,7 +406,7 @@ rollPerception.addEventListener('click', () => {
     let skillRoll = (characterObj.skills['perception'].mod()[0] + characterObj.level + roll);
     let dc = manualDC
     
-    const rollField = document.querySelector(`div#id${characterObj.id} li.perception div.skill-roll`) // id change
+    const rollField = document.querySelector(`div#id${characterObj.id} li.perception label.roll-field`) // id change
     rollField.innerText = skillRoll
     
     const background = document.querySelector(`#id${characterObj.id} li.perception`)
@@ -353,11 +416,11 @@ rollPerception.addEventListener('click', () => {
     } else if (((roll === 20 && skillRoll > dc-10) || (roll === 1 && skillRoll >= dc+10)) || skillRoll >= dc) {
         rollClass = 'success'
     } else if (((roll === 20 && skillRoll <= dc-10) || (roll === 1 && skillRoll >= dc)) || (roll != 1 && skillRoll > dc-10)) {
-        rollClass = 'failure'
+      rollClass = 'failure'
     } else {
-        rollClass = 'critical-failure'
+      rollClass = 'critical-failure'
     }
-      background.classList.remove('critical-success','success','failure','critical-failure')
+    background.classList.remove('critical-success','success','failure','critical-failure')
       background.classList.add(rollClass)
   })
 })
@@ -373,13 +436,13 @@ rollAllButton.addEventListener('click', () => {
           if (characterObj.skills[skill.toLowerCase()].proficiency) {
               roll = rollDice(1,20)[0];
               skillRoll = (characterObj.skills[skill.toLowerCase()].mod()[0] + characterObj.level + roll);
-          }
+            }
           else {
               roll = rollDice(1,20)[0];
               skillRoll = (characterObj.skills[skill.toLowerCase()].mod()[0] + roll);
-          }
+            }
           
-          const rollField = document.querySelector(`div#id${characterObj.id} li.${skill.toLowerCase()} div.skill-roll`) // id change
+          const rollField = document.querySelector(`div#id${characterObj.id} li.${skill.toLowerCase()} label.roll-field`) // id change
           rollField.innerText = skillRoll
           
           const background = document.querySelector(`#id${characterObj.id} li.${skill.toLowerCase()}`)
@@ -389,14 +452,14 @@ rollAllButton.addEventListener('click', () => {
           } else if (((roll === 20 && skillRoll > dc-10) || (roll === 1 && skillRoll >= dc+10)) || skillRoll >= dc) {
               rollClass = 'success'
           } else if (((roll === 20 && skillRoll <= dc-10) || (roll === 1 && skillRoll >= dc)) || (roll != 1 && skillRoll > dc-10)) {
-              rollClass = 'failure'
+            rollClass = 'failure'
           } else {
               rollClass = 'critical-failure'
           }
           background.classList.remove('critical-success','success','failure','critical-failure')
           background.classList.add(rollClass)
-      }
-  })
+        }
+      })
 })
 
 //rollAll
@@ -418,43 +481,3 @@ function searchHandler(monsterResult){
 }
 //----->
 
-
-//RENDER SHEET HANDLERS//----->
-function skillModHandler(characterObject, skill){
-  if (characterObject.skills[skill.toLowerCase()].proficiency) {
-    skillRoll = (characterObj.skills[skill.toLowerCase()].mod()[0]);
-    console.log(skillRoll)
-    return parseInt(`${characterObject.skills[skill.toLowerCase()].mod()[0] + characterObj.level}`)
-}
-else {
-    return parseInt(`${characterObject.skills[skill.toLowerCase()].mod()[0]}`)
-}}
-
-function trainingHandler(objectTarget, skillTarget){ //needs work
-  const targetHelper = objectTarget['skills'][skillTarget.toLowerCase()]['proficiency'];
-  if (targetHelper == 0){return 'U'}
-  else if(targetHelper == 0){return 'U'}
-  else if(targetHelper == 2){return 'T'}
-  else if(targetHelper == 4){return 'E'}
-  else if(targetHelper == 6){return 'M'}
-  else if(targetHelper == 8){return 'L'}
-}
-
-function tempInputHandler(objectTarget, skillTarget, inputTarget){
-  // let number = parseInt(inputTarget.value)
-
-  (objectTarget['skills'][skillTarget.toLowerCase()]['temporary']) = inputTarget.value;
-}
-//----->
-
-
-
-//temp mod handler
-function temporaryModInputFun(objectTarget, skillTarget){
-  const tempInput = document.createElement("input");tempInput.className = 'horg'
-  tempInput.addEventListener('change', function(){
-    let helper = tempInput.value
-     objectTarget['skills'][skillTarget]['temporary'] = helper
-  })
-  return tempInput;
-}

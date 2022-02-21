@@ -1,6 +1,7 @@
 
 
 //Global Variables
+
 const monsters =[]; //might not work as const
 
 const monstersData = {};// to get our search results
@@ -110,7 +111,6 @@ function autocomplete(inp, arr) {
       closeAllLists(e.target);
   });
 }
-
 
 
 //Fetch Commands

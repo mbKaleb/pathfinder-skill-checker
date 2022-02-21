@@ -21,7 +21,7 @@ const characterObj = {
             attributeMod: 0,
             proficiency: 0,
             temporary: 0,
-            attribture: "wisdom",
+            attribute: "wisdom",
         },
         acrobatics: {
             id: 1,

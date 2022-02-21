@@ -15,8 +15,16 @@
 
 
 
+TO DO LIST: 
+    -temp mod updater
+    -Headers float and buttons become usable when the window is halved
+    -training label is update to corresponing color
+    -
 
-    TO DO LIST: temp mod updater
+Added:
+
+
 
 
 since the total box for the rendred sheet is a different valyue you can update them asycnrounsly and send and +1 to each object based on the input
+

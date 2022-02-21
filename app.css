@@ -54,8 +54,10 @@
 
   }
 
-  .list-parent-parent{
+  ul.list-parent-parent{
     height: fit-content;
+    padding: 0;
+    margin: 0;
     width:100%;
     float:left;
     list-style-type: none;
@@ -83,7 +85,8 @@
 
 
 .character-sheet {
-  background-color:antiquewhite;
+  background-color: #1a1615;
+    color:white;
     border: solid;
     border-color: #ffcb05;
     padding: 50px;
@@ -107,8 +110,6 @@
   float: left;
 }
 
-
-
 .list-parent{
   position: relative;
 }
@@ -127,6 +128,29 @@
   position: absolute;
   left: 93%;
 }
+
+label.U{
+  color: white;
+}
+
+label.T{
+  color: greenyellow;
+}
+
+label.E{
+  color: lightseagreen;
+}
+/* label.M{
+  color: 
+}
+label.L{
+
+} */
+
+
+
+
+
 
 
 
@@ -203,7 +227,6 @@ body {
   border: 2px solid #987849;
   color: #FFF;
   text-align: center;
-  
 }
 
 #buttonCard {
@@ -296,19 +319,18 @@ h2 {
   background-color: #1B1717;
   width: calc(25% - 16px);
   height: 84px;
+  text-align: center;
 }
 #manualDC {
-  float: left;
-  width: calc(40% - 16px);
+  width: 100%;
   margin: 8px;
   text-align: center;
-  height: 68px;
 }
 #manualInput {
   font-size: 16px;
   height: 28px;
   width: 40px;
-  text-align:center;
+  
 }
 #manualButtons {
   width: calc(60% - 8px);
@@ -339,4 +361,12 @@ h2 {
 }
 .critical-failure {
   color: #D50000;
+}
+#manualInputForm {
+  float: left;
+  width: 50%;
+}
+#manualButtons {
+  float: left;
+  width: 50%;
 }
