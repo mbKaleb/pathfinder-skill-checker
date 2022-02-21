@@ -69,11 +69,14 @@
     align-content: center;
   }
 
+  li.even{
+    
+  }
   
-    .apply-bttn {
-      width: 100px;
-      height: 100px;
-    }
+  .apply-bttn {
+    width: 100px;
+    height: 100px;
+  }
 
   .ability {
     float: left;
