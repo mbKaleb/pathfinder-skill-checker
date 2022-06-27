@@ -124,9 +124,6 @@ fetch(BASEURL)
     }
     else {
       for (key in monsterObj['recallKnowledge'][0]){
-        //grabbing skill types
-        // console.log(key)
-        
         if (monsterObj.recallKnowledge[0][key].length > 50){
           return
         } else{
@@ -135,8 +132,6 @@ fetch(BASEURL)
             monsterDC: monsterObj['recallKnowledge'][0][key].slice(2),
             monsterSkills: key.split("-")[1].split('(')[1].slice(0,-1).split(","),
         }
-        // console.log(monsterObj['recallKnowledge'][0][key].slice(2))
-        // console.log(monstersObj['recallKnowledge'][0][key])
       }}
     }
   })
@@ -146,13 +141,3 @@ fetch(BASEURL)
 
 //Initializers
 autocomplete(document.getElementById("myInput"), monsters);
-
-
-
-
-
-
-
-
-
-
